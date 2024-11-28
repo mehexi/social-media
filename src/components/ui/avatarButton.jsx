@@ -3,7 +3,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const AavatarButton = () => {
+const AavatarButton = ({userId}) => {
+
   const user = useUser(); 
   const router = useRouter();
 

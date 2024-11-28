@@ -3,13 +3,21 @@ import React from "react";
 
 const PostSkeleton = () => {
   return (
-    <div className="flex items-center space-x-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
+    <>
+      <div className="flex mx-6 my-3 px-3 py-3 rounded-2xl border gap-3">
+        <Skeleton className="w-8 h-8 rounded-full" />
+        <div className="text-nowrap w-10/12">
+          <Skeleton className={"w-80 h-20"} />
+        </div>
       </div>
-    </div>
+
+      <div className="flex mx-6 my-3 px-3 py-3 rounded-2xl border gap-3">
+        <Skeleton className="w-8 h-8 rounded-full" />
+        <div className="text-nowrap w-10/12">
+          <Skeleton className={"w-80 h-20"} />
+        </div>
+      </div>
+    </>
   );
 };
 

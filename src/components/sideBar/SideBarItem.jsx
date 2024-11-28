@@ -18,7 +18,7 @@ const SideBarItem = ({ data }) => {
       className="w-fit rounded-full"
       variant="ghost"
     >
-      <Icon size={32} />
+      <Icon size={32} className={data.active?'text-primary':''} />
       <h1 className={`capitalize max-md:hidden ${data.active ? 'font-semibold' : 'font-light'}`}>{data.label}</h1>
     </Button>
   );

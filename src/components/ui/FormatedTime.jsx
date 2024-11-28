@@ -6,9 +6,7 @@ const FormattedDate = ({ timestamp, showDate = true, showTime = true }) => {
   // Format the date part (weekday, month, day, year)
   const formattedDate = showDate
     ? date.toLocaleDateString('en-US', {
-        weekday: 'long', // "Monday"
-        year: 'numeric', // "2024"
-        month: 'long', // "November"
+        month: 'short', // "November"
         day: 'numeric', // "27"
       })
     : '';

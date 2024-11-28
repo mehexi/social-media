@@ -4,72 +4,69 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL") 
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  clerkUserId    String    @unique
-  userName       String    @unique
-  profilePicture String?
-  bio            String?
-  createdAt      DateTime  @default(now())
-  tweets         Tweet[]   @relation()
-  tweetIds       String[]  @default([]) 
-  bookmarks      Bookmark[] @relation("UserBookmarks")
-  notifications  Notification[]
-  messagesSent   Message[] @relation("SentMessages")
-  likes          Like[]
-  messagesReceived Message[] @relation("ReceivedMessages")
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUserId      String         @unique
+  userName         String         @unique
+  profilePicture   String?
+  bio              String?
+  createdAt        DateTime       @default(now())
+  tweets           Tweet[]        @relation()
+  tweetIds         String[]       @default([])
+  bookmarks        Bookmark[]     @relation("UserBookmarks")
+  notifications    Notification[]
+  messagesSent     Message[]      @relation("SentMessages")
+  likes            String[]       @default([])
+  messagesReceived Message[]      @relation("ReceivedMessages")
 }
 
 model Tweet {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   content       String
-  createdAt     DateTime     @default(now())
-  userId        String      
-  user          User         @relation(fields: [userId], references: [clerkUserId])
-  parentTweetId String?      @db.ObjectId
-  parentTweet   Tweet?       @relation("Replies", fields: [parentTweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  replies       Tweet[]      @relation("Replies")
-  bookmarks     Bookmark[]   
-  likes         Like[]       
-  likeCount     Int          @default(0)
+  createdAt     DateTime   @default(now())
+  userId        String
+  user          User       @relation(fields: [userId], references: [clerkUserId])
+  parentTweetId String?    @db.ObjectId
+  parentTweet   Tweet?     @relation("Replies", fields: [parentTweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies       Tweet[]    @relation("Replies")
+  bookmarks     Bookmark[]
+  likes         String[]   @default([])
+  likeCount     Int        @default(0)
 }
-
 
 model Notification {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   content   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
-  userId    String @db.ObjectId
+  userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
 }
 
 model Bookmark {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  tweetId   String   @db.ObjectId
-  tweet     Tweet    @relation(fields: [tweetId], references: [id])
-  userId    String   @db.ObjectId
-  user      User     @relation("UserBookmarks", fields: [userId], references: [id])
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  tweetId String @db.ObjectId
+  tweet   Tweet  @relation(fields: [tweetId], references: [id])
+  userId  String @db.ObjectId
+  user    User   @relation("UserBookmarks", fields: [userId], references: [id])
 }
 
 model Message {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  content       String
-  createdAt     DateTime @default(now())
-  senderId      String   @db.ObjectId
-  receiverId    String   @db.ObjectId
-  sender        User     @relation("SentMessages", fields: [senderId], references: [id])
-  receiver      User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  createdAt  DateTime @default(now())
+  senderId   String   @db.ObjectId
+  receiverId String   @db.ObjectId
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
 }
 
 model Like {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   tweetId   String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  tweet     Tweet    @relation(fields: [tweetId], references: [id])
   createdAt DateTime @default(now())
 }

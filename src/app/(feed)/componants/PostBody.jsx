@@ -61,7 +61,7 @@ const PostBody = () => {
 
   return (
     <div className="">
-      <div className="space-y-4">
+      <div className="">
         {data?.pages?.map((page, pageIndex) => (
           <div key={pageIndex}>
             {page.map((tweet, index) => (

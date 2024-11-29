@@ -17,3 +17,10 @@ export const regFromSchema = z
     path: ["confirmPassword"],
   })
   .transform(({email,password,username})=>({email,password,username}))
+
+
+  export const tweetSchema = z.object({
+    content: z.string().min(1, "Content is required").max(280, "Content is too long"),
+    parentTweetId: z.string().optional(),
+    images: z.array(z.instanceof(File)).max(4, "You can upload up to 4 images").optional(),
+  });

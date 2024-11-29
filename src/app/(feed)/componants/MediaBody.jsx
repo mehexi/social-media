@@ -1,12 +1,13 @@
 import React from "react";
 import PostBox from "./PostBox";
 import PostBody from "./PostBody";
-import { ThemeColorToggle } from "@/components/darkmode/ThemeColor";
+import { Separator } from "@/components/ui/separator";
 
 const MediaBody = () => {
   return (
-    <section className="flex flex-col max-w-xl h-screen w-full max-sm:w-screen max-sm:max-w-none pt-6">
+    <section className="flex flex-col  h-screen w-full max-sm:w-screen max-sm:max-w-none pt-6">
       <PostBox />
+      <Separator/>
       <PostBody/>
     </section>
   );

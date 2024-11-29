@@ -18,12 +18,16 @@ export async function GET(req) {
         createdAt: "desc",
       },
       include: {
+        parentTweet: {
+          include: {
+            user: true
+          }
+        },
         user: true,
         replies: true,
       },
     });
 
-    // Add `isLiked` property to each tweet
     const newTweets = tweets.map(tweet => ({
       ...tweet,
       isLiked: tweet.likes.includes(currentUser.id), // Check if the current user has liked the tweet

@@ -33,7 +33,7 @@ const OtherUserAvatars = ({ id }) => {
           width={1024}
           height={1024}
           src={user?.imageUrl || "/user.png"}
-          className="w-8 h-8 rounded-full object-cover"
+          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
         />
       </HoverCardTrigger>
       <HoverCardContent className="shadow-sm shadow-primary flex flex-col gap-3">
@@ -51,7 +51,7 @@ const OtherUserAvatars = ({ id }) => {
         <div className="flex flex-col ">
           <h1 className="capitalize">{user?.username}</h1>
           <p className="text-primary text-sm">@{user?.username}</p>
-          <p className="text-secondary-foreground/20 ">
+          <p className="text-secondary-foreground/20 truncate">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure consectetur fuga vitae similique earum saepe aspernatur dicta in voluptate nesciunt, ullam amet, ratione quidem? Voluptates odit repudiandae laudantium totam quasi?
           </p>
         </div>

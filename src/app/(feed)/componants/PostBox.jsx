@@ -6,11 +6,11 @@ import EmojiPicker, { Theme as EmojiTheme } from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { Smile, Image as ImageIcon, Loader2, X } from "lucide-react";
 import { useTheme } from "next-themes";
-import Progress from "../../../components/ui/Progress";
 import AavatarButton from "@/components/ui/avatarButton";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import Progress from "@/components/ui/Progress";
 
 // Fetch posts mutation
 const addPost = async ({ content, images }) => {

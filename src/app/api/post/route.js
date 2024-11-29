@@ -2,7 +2,6 @@ import prisma from "@/lib/prismaDb";
 import { currentUser } from "@clerk/nextjs/server";
 import cloudinary from "cloudinary";
 
-// Configure Cloudinary
 cloudinary.v2.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,

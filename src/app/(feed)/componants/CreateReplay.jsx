@@ -1,3 +1,4 @@
+import AavatarButton from "@/components/ui/avatarButton";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,6 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
+import Progress from "@/components/ui/Progress";
 import { Separator } from "@/components/ui/separator";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -19,21 +21,29 @@ const retweetPost = async ({ content, parentTweetId }) => {
   return res.data;
 };
 
-const CreateReplay = ({ currentPost,onReplySubmit }) => {
+const CreateReplay = ({ currentPost, onReplySubmit }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [content, setContent] = useState(""); // Added state for textarea
   const queryClient = useQueryClient();
 
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: retweetPost,
     onSuccess: () => {
       queryClient.invalidateQueries(["posts"]);
+      setContent(""); // Clear textarea after successful submission
       setIsDialogOpen(false);
-      onReplySubmit();
+      onReplySubmit?.();
     },
     onError: (error) => {
       console.error(error);
     },
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!content.trim()) return; // Prevent empty submissions
+    mutate({ content, parentTweetId: currentPost.id });
+  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -47,7 +57,7 @@ const CreateReplay = ({ currentPost,onReplySubmit }) => {
           <DialogTitle />
         </DialogHeader>
         <div className="flex flex-col gap-6">
-          <div className="flex gap-3 h-fit overflow-hidden">
+          <div className="flex gap-3 h-fit overflow">
             <div className="flex flex-col items-center gap-1">
               <OtherUserAvatars id={currentPost.userId} />
               <Separator orientation="vertical" />
@@ -79,17 +89,32 @@ const CreateReplay = ({ currentPost,onReplySubmit }) => {
             </div>
           </div>
           <div>
-            <Button
-              onClick={() =>
-                mutate({
-                  content: "Replying to this post",
-                  parentTweetId: currentPost.id,
-                })
-              }
-              disabled={isLoading}
+            <form
+              onSubmit={handleSubmit} // Added form submit handler
+              className="space-y-3 flex flex-col items-end"
             >
-              {isLoading ? "Posting..." : "Reply"}
-            </Button>
+              <div className="flex gap-3 w-full">
+                <AavatarButton />
+                <textarea
+                  className="focus:outline-none w-full rounded-lg resize-none bg-transparent"
+                  rows={2}
+                  draggable={false}
+                  placeholder="What's Cooking?"
+                  value={content} // Bind state to textarea
+                  onChange={(e) => setContent(e.target.value)} // Update state on change
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="flex justify-center items-center gap-3">
+                <Progress size={32} strokeWidth={2} limit={200} progress={content.length}/>
+                <Button
+                  type="submit"
+                  disabled={isLoading || !content.trim()} // Disable button for empty or loading state
+                >
+                  {isLoading ? "Posting..." : "Reply"}
+                </Button>
+              </div>
+            </form>
             {isError && (
               <p className="text-red-500 mt-2">
                 Failed to reply. Please try again.

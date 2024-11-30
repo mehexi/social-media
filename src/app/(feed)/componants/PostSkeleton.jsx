@@ -1,10 +1,11 @@
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 
 const PostSkeleton = () => {
   return (
     <>
-      <div className="flex flex-col  mx-6 my-3 px-3 py-3 rounded-2xl border gap-3">
+      <div className="flex flex-col  mx-6 my-3 gap-3">
         <div className="flex gap-2">
           <Skeleton className="w-8 h-8 rounded-full" />
           <div className="space-y-2">
@@ -21,8 +22,8 @@ const PostSkeleton = () => {
           <Skeleton className={"w-24 h-4"} />
         </div>
       </div>
-
-      <div className="flex flex-col  mx-6 my-3 px-3 py-3 rounded-2xl border gap-3">
+      <Separator/>
+      <div className="flex flex-col  mx-6 my-3 gap-3">
         <div className="flex gap-2">
           <Skeleton className="w-8 h-8 rounded-full" />
           <div className="space-y-2">

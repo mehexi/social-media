@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 const SinglePost = ({ post, onReplySubmit }) => {
   const [like, setLike] = useState(post.likeCount);
   const [isLiked, setIsLiked] = useState(post.isLiked);
+  const [isLiking,setIsLiking] = useState(false)
 
   useEffect(() => {
     setLike(post.likeCount);
@@ -19,6 +20,8 @@ const SinglePost = ({ post, onReplySubmit }) => {
   }, [post]);
 
   const handleLike = async (tweetId) => {
+    setIsLiking(true)
+    setIsLiked(true)
     try {
       const res = await axios.post("/api/toggleLike", { tweetId });
       console.log(res);
@@ -28,6 +31,9 @@ const SinglePost = ({ post, onReplySubmit }) => {
       setIsLiked(updatedIsLiked);
     } catch (error) {
       console.error("Error toggling like:", error);
+    }
+    finally {
+      setIsLiking(false)
     }
   };
 
@@ -136,6 +142,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
         <Separator className="mt-3" />
         <div className="flex justify-between pr-3 pt-3">
           <Button
+           disabled={isLiking}
             variant="ghost"
             className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"

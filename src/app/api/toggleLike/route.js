@@ -33,7 +33,7 @@ export async function POST(req) {
         where: { id: tweet.id },
         data: {
           likes: tweet.likes.filter((like) => like !== user.id),
-          likeCount: { decrement: 1 },
+          likeCount: { set: tweet.likeCount > 0 ? tweet.likeCount - 1 : 0, },
         },
       });
 

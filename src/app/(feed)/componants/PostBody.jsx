@@ -9,7 +9,7 @@ import PostSkeleton from "./PostSkeleton";
 const fetchPosts = async ({ pageParam = 1 }) => {
   const res = await axios.get(`/api/getPost?page=${pageParam}&limit=2`);
   console.log("Fetched data:", res.data); // Debugging
-  return res.data.newTweets;
+  return res.data.newTweets || []; // Ensure this matches your response structure
 };
 
 const PostBody = () => {
@@ -21,33 +21,37 @@ const PostBody = () => {
       queryKey: ["posts"],
       queryFn: fetchPosts,
       getNextPageParam: (lastPage, allPages) => {
-        const currentPage = allPages.length;
-        return lastPage.length > 0 ? currentPage + 1 : undefined;
+        const nextPage = allPages.length + 1; // Track page number
+        return lastPage.length > 0 ? nextPage : undefined; // Ensure more pages exist
       },
     });
+
+  console.log("Has Next Page:", hasNextPage); // Debugging
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          console.log("Fetching next page...");
           fetchNextPage();
         }
       },
-      { threshold: 1.0 }
+      { rootMargin: "0px 0px 300px 0px", threshold: 0.1 }
     );
 
-    if (lastPostRef.current) {
-      observer.observe(lastPostRef.current);
+    const current = lastPostRef.current;
+    if (current) {
+      observer.observe(current);
     }
 
     return () => {
-      if (lastPostRef.current) {
-        observer.unobserve(lastPostRef.current);
+      if (current) {
+        observer.unobserve(current);
       }
     };
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  if (status === "pending") {
+  if (status === "loading") {
     return <PostSkeleton />;
   }
 
@@ -82,9 +86,9 @@ const PostBody = () => {
                   onReplySubmit={scrollToTop}
                 />
               ))}
-              <div ref={lastPostRef}></div>
             </div>
           ))}
+          <div ref={lastPostRef} className="h-2"></div>
         </div>
         {isFetchingNextPage && <PostSkeleton />}
       </div>

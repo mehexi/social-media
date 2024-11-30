@@ -9,7 +9,7 @@ import OtherUserAvatars from "@/components/ui/otherUserAvatars";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, onReplySubmit }) => {
   const [like, setLike] = useState(post.likeCount);
   const [isLiked, setIsLiked] = useState(post.isLiked);
 
@@ -99,7 +99,7 @@ const SinglePost = ({ post }) => {
                         key={i}
                         alt={post.parentTweet.content}
                         src={image}
-                        className={`col-span-1 max-h-96 ${
+                        className={`col-span-1 max-h-96 rounded-lg ${
                           post.parentTweet.image.length <= 1
                             ? "object-contain"
                             : "object-cover"
@@ -121,8 +121,8 @@ const SinglePost = ({ post }) => {
           >
             {post.image.map((image, i) => (
               <Image
-                width={1024}
-                height={1024}
+                width={200}
+                height={384}
                 key={i}
                 alt={post.content}
                 src={image}
@@ -133,11 +133,11 @@ const SinglePost = ({ post }) => {
             ))}
           </div>
         ) : null}
-        <Separator className='mt-3'/>
+        <Separator className="mt-3" />
         <div className="flex justify-between pr-3 pt-3">
           <Button
             variant="ghost"
-            className={`text-xs ${
+            className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"
             }`}
             onClick={() => handleLike(post.id)}
@@ -148,11 +148,7 @@ const SinglePost = ({ post }) => {
             <span className="-ml-1 z-10">{like}</span>
           </Button>
           <Separator orientation="vertical" />
-          <CreateReplay currentPost={post} />
-          <Separator orientation="vertical" />
-          <CreateReplay currentPost={post} />
-          <Separator orientation="vertical" />
-          <CreateReplay currentPost={post} />
+          <CreateReplay currentPost={post} onReplySubmit={onReplySubmit} />
         </div>
       </div>
     </div>

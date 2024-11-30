@@ -18,12 +18,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { regFromSchema } from "@/formValidation/formSchema";
 import { useRegister } from "@/hooks/useRegister";
+import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import React from "react";
+import { ArrowLeft, ChevronLeft, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const RegisterCard = () => {
+  const user = useUser();
+  const router = useRouter();
+
+  if (user.isSignedIn) {
+    window.location.href = "/";
+  }
+
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(regFromSchema),
     defaultValues: {
@@ -37,6 +49,7 @@ const RegisterCard = () => {
   const handleRegisterUser = useRegister();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const { email, password, username } = data;
 
     const result = await handleRegisterUser(email, password, username);
@@ -55,18 +68,28 @@ const RegisterCard = () => {
         })
         .catch((error) => {
           console.log(error);
-        });
+        })
+        .finally(() => setLoading(false));
     } else {
       console.error("Sign-up failed.");
     }
   };
 
+  const handleGoBack = () => {
+    router.push('/login')
+  }
+
   return (
     <div className=" px-20 w-8/12 max-md:w-full max-sm:px-0">
       <Card className="w-full max-sm:border-none">
-        <CardHeader>
+        <CardHeader className="">
+          <div className="flex space-x-3">
+            <Button variant='ghost' size='icon' onClick={handleGoBack}><ChevronLeft/></Button>
+          <div>
           <CardTitle>Register</CardTitle>
           <CardDescription>Create a New Account</CardDescription>
+          </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Form {...form} autoComplete="off">
@@ -139,7 +162,25 @@ const RegisterCard = () => {
                   );
                 }}
               />
-              <Button>Register</Button>
+              {loading ? (
+                <Button className="rounded-full" disabled>
+                  <span className="animate-spin">
+                    <Loader2 />
+                  </span>
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="rounded-full"
+                  disabled={
+                    loading ||
+                    form.formState.isSubmitting ||
+                    !form.formState.isValid
+                  }
+                >
+                  {loading ? "Registering..." : "Register"}
+                </Button>
+              )}
             </form>
           </Form>
         </CardContent>

@@ -7,29 +7,25 @@ import SinglePost from "./SinglePost";
 import PostSkeleton from "./PostSkeleton";
 
 const fetchPosts = async ({ pageParam = 1 }) => {
-  const res = await axios.get(`/api/getPost?page=${pageParam}&limit=10`);
+  const res = await axios.get(`/api/getPost?page=${pageParam}&limit=2`);
+  console.log("Fetched data:", res.data); // Debugging
   return res.data.newTweets;
 };
 
 const PostBody = () => {
-  const lastPostRef = useRef(null); // Reference for the last post element
+  const lastPostRef = useRef(null);
+  const topRef = useRef(null);
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
-    getNextPageParam: (lastPage, allPages) => {
-      const currentPage = allPages.length;
-      return lastPage.length > 0 ? currentPage + 1 : undefined;
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["posts"],
+      queryFn: fetchPosts,
+      getNextPageParam: (lastPage, allPages) => {
+        const currentPage = allPages.length;
+        return lastPage.length > 0 ? currentPage + 1 : undefined;
+      },
+    });
 
-  // IntersectionObserver to detect when the last post is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -37,21 +33,21 @@ const PostBody = () => {
           fetchNextPage();
         }
       },
-      { threshold: 1.0 } // 100% of the element must be in view to trigger the observer
+      { threshold: 1.0 }
     );
 
     if (lastPostRef.current) {
-      observer.observe(lastPostRef.current); // Observe the last post element
+      observer.observe(lastPostRef.current);
     }
 
     return () => {
       if (lastPostRef.current) {
-        observer.unobserve(lastPostRef.current); // Clean up the observer
+        observer.unobserve(lastPostRef.current);
       }
     };
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  if (status === "loading") {
+  if (status === "pending") {
     return <PostSkeleton />;
   }
 
@@ -59,21 +55,40 @@ const PostBody = () => {
     return <div>Something went wrong.</div>;
   }
 
-  return (
-    <div className="">
-      <div className="">
-        {data?.pages?.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page.map((tweet, index) => (
-              <SinglePost key={index} post={tweet} />
-            ))}
-            <div ref={lastPostRef}></div>
-          </div>
-        ))}
-      </div>
+  const scrollToTop = () => {
+    setTimeout(() => {
+      if (topRef.current) {
+        topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }, 200); // Add a delay to ensure DOM has updated
+  };
 
-      {isFetchingNextPage && <PostSkeleton />}
-    </div>
+  return (
+    <>
+      <div>
+        <div ref={topRef} id="top"></div>
+        <div>
+          {data?.pages?.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.map((tweet, index) => (
+                <SinglePost
+                  key={index}
+                  post={tweet}
+                  onReplySubmit={scrollToTop}
+                />
+              ))}
+              <div ref={lastPostRef}></div>
+            </div>
+          ))}
+        </div>
+        {isFetchingNextPage && <PostSkeleton />}
+      </div>
+    </>
   );
 };
 

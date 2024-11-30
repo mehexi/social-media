@@ -11,12 +11,13 @@ import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Progress from "@/components/ui/Progress";
+import { Separator } from "@/components/ui/separator";
 
 // Fetch posts mutation
 const addPost = async ({ content, images }) => {
   const formData = new FormData();
   formData.append("content", content);
-  images.forEach((image) => formData.append("images", image)); 
+  images.forEach((image) => formData.append("images", image));
 
   const { data } = await axios.post("/api/post", formData, {
     headers: {
@@ -73,7 +74,7 @@ const PostBox = () => {
       return;
     }
     setSelectedImages((prev) => [...prev, ...files]);
-    e.target.value = ""; 
+    e.target.value = "";
   };
 
   const handleRemoveImage = (index) => {
@@ -91,21 +92,21 @@ const PostBox = () => {
     <>
       <div className=" rounded-lg px-6 py-3 flex gap-3">
         <AavatarButton />
-        <div className="w-full flex flex-col gap-3 group">
+        <div className="w-full flex flex-col gap-3">
           <textarea
-            className="focus:outline-none w-full rounded-lg resize-none bg-transparent"
-            rows={2}
-            draggable={false}
-            placeholder="What's Cooking?"
-            value={postText}
-            onChange={handleChange}
-            disabled={isPosting}
+              className="focus:outline-none w-full rounded-lg resize-none bg-transparent"
+              rows={2}
+              draggable={false}
+              placeholder="What's Cooking?"
+              value={postText}
+              onChange={handleChange}
+              disabled={isPosting}
           />
-          <hr />
+          <Separator/>
           <div
             className={`grid ${
               selectedImages.length > 1 ? "grid-cols-2" : "grid-cols-1"
-            } gap-2 mt-2`}
+            } gap-2 `}
           >
             {selectedImages.map((image, index) => (
               <div key={index} className="relative">
@@ -132,8 +133,15 @@ const PostBox = () => {
 
           <div className="flex justify-between items-center">
             <div className="relative space-x-2">
-              <Button size="icon" className="w-8 h-8 cursor-pointer p-0" variant="outline">
-                <Label htmlFor="imageUpload" className='cursor-pointer w-full h-full flex justify-center items-center'>
+              <Button
+                size="icon"
+                className="w-8 h-8 cursor-pointer p-0"
+                variant="outline"
+              >
+                <Label
+                  htmlFor="imageUpload"
+                  className="cursor-pointer w-full h-full flex justify-center items-center"
+                >
                   <ImageIcon />
                 </Label>
               </Button>

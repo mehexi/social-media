@@ -91,7 +91,7 @@ const LoginCard = () => {
               />
               <Link
                 href={"/forgot-password"}
-                className="text-sm text-center w-full font-semibold hover:underline flex justify-end mt-3 text-blue-600"
+                className="text-sm text-center w-full font-semibold hover:underline flex justify-end mt-3 text-primary"
               >
                 Forgot password
               </Link>
@@ -102,7 +102,7 @@ const LoginCard = () => {
         </CardContent>
         <CardFooter className="flex items-center justify-center flex-col gap-3">
           <h1 className="text-gray-400">or</h1>
-          <Link href={"/sign-up"} className="hover:underline">sign up now</Link>
+          <Link href={"/sign-up"} className="hover:underline text-primary">sign up now</Link>
         </CardFooter>
       </Card>
     </div>

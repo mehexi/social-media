@@ -20,15 +20,20 @@ export async function GET(req) {
       include: {
         parentTweet: {
           include: {
-            user: true
-          }
+            user: true,
+            parentTweet: {
+              include: {
+                user: true
+              }
+            }
+          },
         },
         user: true,
         replies: true,
       },
     });
 
-    const newTweets = tweets.map(tweet => ({
+    const newTweets = tweets.map((tweet) => ({
       ...tweet,
       isLiked: tweet.likes.includes(currentUser.id), // Check if the current user has liked the tweet
     }));

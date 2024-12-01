@@ -8,11 +8,12 @@ import CreateReplay from "./CreateReplay";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import SubMenu from "@/components/ui/SubMenu";
 
 const SinglePost = ({ post, onReplySubmit }) => {
   const [like, setLike] = useState(post.likeCount);
   const [isLiked, setIsLiked] = useState(post.isLiked);
-  const [isLiking,setIsLiking] = useState(false)
+  const [isLiking, setIsLiking] = useState(false);
 
   useEffect(() => {
     setLike(post.likeCount);
@@ -20,8 +21,8 @@ const SinglePost = ({ post, onReplySubmit }) => {
   }, [post]);
 
   const handleLike = async (tweetId) => {
-    setIsLiking(true)
-    setIsLiked(true)
+    setIsLiking(true);
+    setIsLiked(true);
     try {
       const res = await axios.post("/api/toggleLike", { tweetId });
       console.log(res);
@@ -31,9 +32,8 @@ const SinglePost = ({ post, onReplySubmit }) => {
       setIsLiked(updatedIsLiked);
     } catch (error) {
       console.error("Error toggling like:", error);
-    }
-    finally {
-      setIsLiking(false)
+    } finally {
+      setIsLiking(false);
     }
   };
 
@@ -46,7 +46,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
         {post.parentTweet && <Separator orientation="vertical" />}
       </div>
       <div className="text-nowrap w-full flex flex-col">
-        <div className="flex items-center font-semibold gap-3">
+        <div className="flex items-start font-semibold gap-3">
           <h1 className="group">
             @
             <span className="cursor-pointer group-hover:underline">
@@ -60,6 +60,9 @@ const SinglePost = ({ post, onReplySubmit }) => {
               showTime={false}
             />
           </span>
+          <div className="ml-auto">
+            <SubMenu post={post} />
+          </div>
         </div>
         <p className="whitespace-pre-wrap break-words text-sm text-foreground/80">
           <FormattedContent content={post.content} />
@@ -142,7 +145,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
         <Separator className="mt-3" />
         <div className="flex justify-between pr-3 pt-3">
           <Button
-           disabled={isLiking}
+            disabled={isLiking}
             variant="ghost"
             className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"

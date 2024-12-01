@@ -51,7 +51,7 @@ const PostBody = () => {
     };
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  if (status === "loading") {
+  if (status === "pending") {
     return <PostSkeleton />;
   }
 
@@ -88,7 +88,9 @@ const PostBody = () => {
               ))}
             </div>
           ))}
-          <div ref={lastPostRef} className="h-2"></div>
+          <div ref={lastPostRef} className="">
+            <PostSkeleton/>
+          </div>
         </div>
         {isFetchingNextPage && <PostSkeleton />}
       </div>

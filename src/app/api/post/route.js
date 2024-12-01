@@ -1,6 +1,7 @@
 import prisma from "@/lib/prismaDb";
 import { currentUser } from "@clerk/nextjs/server";
 import cloudinary from "cloudinary";
+import { NextResponse } from "next/server";
 
 cloudinary.v2.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -52,7 +53,7 @@ export async function POST(req) {
       
       imageUrls.push(uploadResult.secure_url);
     }
-
+    
     console.log('image', imageUrls)
     
     // Create a new tweet in the database
@@ -69,5 +70,21 @@ export async function POST(req) {
   } catch (error) {
     console.error("Error while creating tweet:", error);
     return new Response("Server error", { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    const { searchParams } = new URL(req.url)
+    const tweetId = searchParams.get('id')
+    const tweet = await prisma.tweet.delete({
+      where: { id: tweetId },
+    })
+
+    return NextResponse.json(tweet,{status:200})
+  }
+  catch (error) {
+    console.error("Error while deleting tweet:", error);
+    return new NextResponse('internal server error' ,{status:500})
   }
 }

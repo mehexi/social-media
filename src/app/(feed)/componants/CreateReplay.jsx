@@ -7,9 +7,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import FormattedContent from "@/components/ui/FormatContent";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
 import Progress from "@/components/ui/Progress";
 import { Separator } from "@/components/ui/separator";
+import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Reply } from "lucide-react";
@@ -47,29 +49,31 @@ const CreateReplay = ({ currentPost, onReplySubmit }) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <ToolTipWrapper title={'Reply'}>
       <DialogTrigger asChild>
-        <Button className="text-xs w-full" variant="ghost">
-          <Reply /> 0
-        </Button>
+          <Button className="text-xs w-full" variant="ghost">
+            <Reply />
+          </Button>
       </DialogTrigger>
-      <DialogContent>
+        </ToolTipWrapper>
+      <DialogContent className='max-w-xl'>
         <DialogHeader>
           <DialogTitle />
         </DialogHeader>
         <div className="flex flex-col gap-6">
-          <div className="flex gap-3 h-fit overflow">
+          <div className="flex gap-3 h-fit">
             <div className="flex flex-col items-center gap-1">
               <OtherUserAvatars id={currentPost.userId} />
               <Separator orientation="vertical" />
             </div>
-            <div className="w-full">
+            <div className="">
               <div className="text-md capitalize flex items-center gap-2">
                 <h1>{currentPost.user.userName}</h1>
                 <p className="text-primary text-xs">
                   @{currentPost.user.userName}
                 </p>
               </div>
-              <div className="text-md capitalize flex flex-col gap-3 justify-between w-full">
+              <div className="text-md capitalize flex flex-col gap-3 justify-between">
                 <h1>{currentPost.content}</h1>
                 {currentPost.hasImage && (
                   <div className="flex gap-1">
@@ -106,7 +110,12 @@ const CreateReplay = ({ currentPost, onReplySubmit }) => {
                 />
               </div>
               <div className="flex justify-center items-center gap-3">
-                <Progress size={32} strokeWidth={2} limit={200} progress={content.length}/>
+                <Progress
+                  size={32}
+                  strokeWidth={2}
+                  limit={200}
+                  progress={content.length}
+                />
                 <Button
                   type="submit"
                   disabled={isLoading || !content.trim()} // Disable button for empty or loading state

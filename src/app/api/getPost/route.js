@@ -23,19 +23,23 @@ export async function GET(req) {
             user: true,
             parentTweet: {
               include: {
-                user: true
-              }
-            }
+                user: true,
+              },
+            },
           },
         },
         user: true,
         replies: true,
+        bookmarks: true,
       },
     });
 
     const newTweets = tweets.map((tweet) => ({
       ...tweet,
-      isLiked: tweet.likes.includes(currentUser.id), // Check if the current user has liked the tweet
+      isLiked: tweet.likes.includes(currentUser.id),
+      isBookmarked: tweet.bookmarks.some(
+        (bookmark) => bookmark.userId === currentUser.id
+      ),
     }));
 
     return NextResponse.json({ newTweets }, { status: 200 });

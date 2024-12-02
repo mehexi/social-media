@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -6,7 +7,7 @@ const deletePost = async (id) => {
     return res.data;
 };
 
-const useDeletePost = () => {
+export const useDeletePost = () => {
     const queryClient = useQueryClient();
     
     return useMutation({
@@ -20,4 +21,15 @@ const useDeletePost = () => {
     });
 };
 
-export default useDeletePost;
+export const bookMarkPost = async (id) => {
+    try {
+        const res = await axios.post(`/api/bookmark/?id=${id}`);
+        const {message,added} = res.data
+        return added
+    } catch (error) {
+        console.error(error);
+        toast({
+            title: "Something Went Wrong    ",
+        });
+    }
+};

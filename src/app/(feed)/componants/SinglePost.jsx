@@ -2,23 +2,33 @@ import FormattedContent from "@/components/ui/FormatContent";
 import FormattedDate from "@/components/ui/FormatedTime";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
-import { ThumbsUp } from "lucide-react";
+import { BarChart, Bookmark, ThumbsUp } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import CreateReplay from "./CreateReplay";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import SubMenu from "@/components/ui/SubMenu";
+import { bookMarkPost } from "@/actions/postActions";
+import { toast } from "@/hooks/use-toast";
+import { useUser } from "@clerk/nextjs";
+import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
 
 const SinglePost = ({ post, onReplySubmit }) => {
+  const { user } = useUser();
+
+  const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
   const [like, setLike] = useState(post.likeCount);
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isLiking, setIsLiking] = useState(false);
+  const isAuthor = user?.id === post.userId;
 
   useEffect(() => {
     setLike(post.likeCount);
     setIsLiked(post.isLiked);
   }, [post]);
+
+  //toggle likes
 
   const handleLike = async (tweetId) => {
     setIsLiking(true);
@@ -35,6 +45,16 @@ const SinglePost = ({ post, onReplySubmit }) => {
     } finally {
       setIsLiking(false);
     }
+  };
+
+  // toggle BM
+
+  const toggleBookmark = async () => {
+    const added = await bookMarkPost(post.id);
+    setIsBookmarked(added);
+    toast({
+      title: added ? "Added to Bookmarks" : "Removed from Bookmarks",
+    });
   };
 
   console.log(post);
@@ -58,7 +78,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
             </h1>
             {post.updatedAt ? (
               <span className="text-secondary-foreground/60 text-xs font-thin flex gap-1">
-                <h1>edited .</h1> 
+                <h1>edited .</h1>
                 <FormattedDate
                   timestamp={post.updatedAt}
                   showDate={true}
@@ -170,12 +190,37 @@ const SinglePost = ({ post, onReplySubmit }) => {
             onClick={() => handleLike(post.id)}
           >
             <span className="p-2 rounded-full">
-              <ThumbsUp size={14} />
+              <ThumbsUp size={14} fill={isLiked ? "currentColor" : ""} />
             </span>
-            <span className="-ml-1 z-10">{like == 0 ? 'Like' : `${like}`}</span>
+            <span className="-ml-1 z-10">{like == 0 ? "Like" : `${like}`}</span>
           </Button>
           <Separator orientation="vertical" />
+
           <CreateReplay currentPost={post} onReplySubmit={onReplySubmit} />
+
+          <Separator orientation="vertical" />
+          {isAuthor ? (
+            <ToolTipWrapper title={"Analytics"}>
+              <Button variant="ghost" className="w-full">
+                {" "}
+                <BarChart />
+              </Button>
+            </ToolTipWrapper>
+          ) : (
+            <ToolTipWrapper title={"Bookmark"}>
+              <Button
+                onClick={toggleBookmark}
+                variant="ghost"
+                className="w-full"
+              >
+                {!isBookmarked ? (
+                  <Bookmark />
+                ) : (
+                  <Bookmark fill="currentcolor" className="text-primary" />
+                )}{" "}
+              </Button>
+            </ToolTipWrapper>
+          )}
         </div>
       </div>
     </div>

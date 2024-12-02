@@ -7,9 +7,9 @@ export const loginFromSchema = z.object({
 
 export const regFromSchema = z
   .object({
-    username: z.string().min(1, "UserName is Required"),
+    username: z.string().min(4, "UserName Must be 4 character Long"),
     email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(8, "Password must be at least 6 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

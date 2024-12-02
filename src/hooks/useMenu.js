@@ -1,4 +1,3 @@
-import useDeletePost from "@/actions/postActions";
 import {
   BarChart,
   Blocks,
@@ -7,16 +6,30 @@ import {
   Flag,
   Link,
   Pen,
+  Pin,
   Share,
   Trash2,
   UserPlus2,
 } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useToast } from "./use-toast";
+import { bookMarkPost, useDeletePost } from "@/actions/postActions";
 
 const useMenu = (tweet, isAuthor, setOpen) => {
+  const [isBookmarked, setIsBookmarked] = useState(tweet.isBookmarked);
   const { toast } = useToast();
   const deletePostMutation = useDeletePost();
+  
+  //toggle bm
+  const toggleBookmark = async () => {
+    const added = await bookMarkPost(tweet.id);
+    setIsBookmarked(added);
+    toast({
+      title: added ? "Added to Bookmarks" : "Removed from Bookmarks",
+    });
+  };
+
+  //copy to clipboard
   const tweetLink = () => {
     const link = `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`;
 
@@ -26,7 +39,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         toast({
           title: "Link copied!",
           description: "The tweet link has been copied to your clipboard.",
-          className: "text-sm"
+          className: "text-sm",
         });
       })
       .catch(() => {
@@ -35,6 +48,21 @@ const useMenu = (tweet, isAuthor, setOpen) => {
           description: "There was a problem copying the link.",
         });
       });
+  };
+  
+  //share
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `${tweet.user.userName}`,
+        text: `${tweet.content}`,
+        url:  `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`,
+      })
+        .then(() => console.log('Successfully shared'))
+        .catch((error) => console.error('Error sharing', error));
+    } else {
+      console.log('Share API not supported on this device/browser.');
+    }
   };
 
   const menus = useMemo(() => {
@@ -47,7 +75,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
       {
         label: "Share Tweet",
         icon: Share,
-        onClick: () => console.log("Share options opened"),
+        onClick: () => handleShare(),
       },
     ];
 
@@ -56,7 +84,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         ...commonMenus,
         {
           label: "Pin to Profile",
-          icon: BarChart,
+          icon: Pin,
           onClick: () => console.log("Tweet pinned"),
         },
         {
@@ -87,9 +115,9 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         onClick: () => console.log(`Followed user ID: ${tweet.authorId}`),
       },
       {
-        label: "Add to Bookmarks",
+        label: isBookmarked ? "Remove from Bookmarks" : "Add to Bookmarks",
         icon: Bookmark,
-        onClick: () => console.log(`Bookmark added for tweet ID: ${tweet.id}`),
+        onClick: () => toggleBookmark(),
       },
       {
         label: `Block ${tweet.user.userName}`,
@@ -104,7 +132,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         onClick: () => console.log(`Reported tweet ID: ${tweet.id}`),
       },
     ];
-  }, [tweet, isAuthor]);
+  }, [tweet, isAuthor,deletePostMutation,setOpen]);
 
   return menus;
 };

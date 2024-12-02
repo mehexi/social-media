@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import ReactQueryProvider from "./provider/ReactQueryProvider";
 import ThemeDataProvider from "./provider/ThemeDataProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -31,10 +32,10 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             <ThemeDataProvider>
-              <ReactQueryProvider>
-                {children}
-                <Toaster />                
-              </ReactQueryProvider>
+                <ReactQueryProvider>
+                  {children}
+                  <Toaster />
+                </ReactQueryProvider>
             </ThemeDataProvider>
           </ThemeProvider>
         </ClerkProvider>

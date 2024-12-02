@@ -42,7 +42,7 @@ const EditPost = ({ post, setOpen }) => {
           </div>
         </div>
         <textarea
-          className="focus:outline-none w-full rounded-lg resize-none bg-transparent"
+          className="focus:outline-none w-full rounded-lg resize-none bg-transparent "
           rows={2}
           onChange={(e) => setText(e.target.value)}
           draggable={false}

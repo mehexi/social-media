@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import ReactQueryProvider from "./provider/ReactQueryProvider";
 import ThemeDataProvider from "./provider/ThemeDataProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,8 +31,10 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             <ThemeDataProvider>
-
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+              <ReactQueryProvider>
+                {children}
+                <Toaster />                
+              </ReactQueryProvider>
             </ThemeDataProvider>
           </ThemeProvider>
         </ClerkProvider>

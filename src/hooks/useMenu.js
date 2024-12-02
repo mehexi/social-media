@@ -1,17 +1,48 @@
 import useDeletePost from "@/actions/postActions";
-import { BarChart, Blocks, Bookmark, CircleSlash, Flag, Link, Pen, Share, Trash2, UserPlus2 } from "lucide-react";
+import {
+  BarChart,
+  Blocks,
+  Bookmark,
+  CircleSlash,
+  Flag,
+  Link,
+  Pen,
+  Share,
+  Trash2,
+  UserPlus2,
+} from "lucide-react";
 import { useMemo } from "react";
+import { useToast } from "./use-toast";
 
-const useMenu = (tweet, isAuthor) => {
-
+const useMenu = (tweet, isAuthor, setOpen) => {
+  const { toast } = useToast();
   const deletePostMutation = useDeletePost();
+  const tweetLink = () => {
+    const link = `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`;
+
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        toast({
+          title: "Link copied!",
+          description: "The tweet link has been copied to your clipboard.",
+          className: "text-sm"
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem copying the link.",
+        });
+      });
+  };
 
   const menus = useMemo(() => {
     const commonMenus = [
       {
         label: "Copy Link to Tweet",
         icon: Link,
-        onClick: () => console.log(`Link copied for tweet ID: ${tweet.id}`),
+        onClick: () => tweetLink(),
       },
       {
         label: "Share Tweet",
@@ -31,12 +62,13 @@ const useMenu = (tweet, isAuthor) => {
         {
           label: "Edit",
           icon: Pen,
-          onClick: () => console.log(`Edit tweet ID: ${tweet.id}`),
+          onClick: () => setOpen(true),
         },
         {
           label: "View Analytics",
           icon: BarChart,
-          onClick: () => console.log(`Viewing analytics for tweet ID: ${tweet.id}`),
+          onClick: () =>
+            console.log(`Viewing analytics for tweet ID: ${tweet.id}`),
         },
         {
           label: "Delete",
@@ -52,7 +84,7 @@ const useMenu = (tweet, isAuthor) => {
       {
         label: `Follow ${tweet.user.userName}`,
         icon: UserPlus2,
-        onClick: () => console.log(`Followed user ID: ${tweet.authorId}`)
+        onClick: () => console.log(`Followed user ID: ${tweet.authorId}`),
       },
       {
         label: "Add to Bookmarks",

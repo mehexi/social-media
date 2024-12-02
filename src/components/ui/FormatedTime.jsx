@@ -15,8 +15,7 @@ const FormattedDate = ({ timestamp, showDate = true, showTime = true }) => {
   const formattedTime = showTime
     ? date.toLocaleTimeString('en-US', {
         hour: '2-digit', // "04"
-        minute: '2-digit', // "10"
-        second: '2-digit', // "04"
+        minute: '2-digit', // "04"
         hour12: true, // 12-hour format
       })
     : '';

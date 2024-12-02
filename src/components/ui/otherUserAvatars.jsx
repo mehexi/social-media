@@ -27,7 +27,7 @@ const OtherUserAvatars = ({ id }) => {
 
   return (
     <HoverCard>
-      <HoverCardTrigger>
+      <HoverCardTrigger className="w-8 h-8">
         <Image
           alt={user?.firstName ? `${user.firstName}'s Avatar` : "Default User Avatar"}
           width={1024}

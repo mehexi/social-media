@@ -88,3 +88,34 @@ export async function DELETE(req) {
     return new NextResponse('internal server error' ,{status:500})
   }
 }
+
+export async function PUT(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const tweetId = searchParams.get("id");
+    const body = await req.json();
+    const { content } = body;
+
+    // Debugging logs
+    console.log("Request URL:", req.url);
+    console.log("Request Body:", body);
+    console.log("Tweet ID:", tweetId);
+
+    if (!content || !tweetId) {
+      return new Response("Content is required", { status: 400 });
+    }
+
+    // Update tweet
+    const editedTweet = await prisma.tweet.update({
+      where: { id: tweetId },
+      data: { content },
+    });
+
+    console.log("Updated Tweet:", editedTweet);
+
+    return NextResponse.json(editedTweet, { status: 200 });
+  } catch (error) {
+    console.error("Error updating tweet:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}

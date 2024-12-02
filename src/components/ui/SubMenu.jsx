@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,12 +8,15 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import useMenu from "@/hooks/useMenu";
 import { useUser } from "@clerk/nextjs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog";
+import EditPost from "../subMenu/EditPost";
 
 const SubMenu = ({ post }) => {
   
+  const [open, setOpen] = useState(false)
   const { user } = useUser();
   const isAuthor = user?.id === post.userId
-  const menu = useMenu(post, isAuthor);
+  const menu = useMenu(post, isAuthor,setOpen);
   
   return (
     <DropdownMenu>
@@ -25,6 +28,7 @@ const SubMenu = ({ post }) => {
           <Menuitem key={index} data={item} />
         ))}
       </DropdownMenuContent>
+      <EditPopup open={open} setOpen={setOpen} post={post} />
     </DropdownMenu>
   );
 };
@@ -37,5 +41,19 @@ const Menuitem = ({ data }) => {
     </DropdownMenuItem>
   );
 };
+
+const EditPopup = ({open,setOpen,post}) => {
+  
+  return (
+    <Dialog open={open} onOpenChange={() => setOpen(false)}>
+      <DialogContent>
+      <DialogTitle>
+       Edit Your Tweet
+      </DialogTitle>
+        <EditPost post={post} setOpen={setOpen} />
+      </DialogContent>
+    </Dialog>
+  )
+}
 
 export default SubMenu;

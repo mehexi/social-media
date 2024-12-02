@@ -33,7 +33,7 @@ const PostBox = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [postText, setPostText] = useState("");
   const [isPosting, setIsPosting] = useState(false);
-  const [selectedImages, setSelectedImages] = useState([]); // For storing selected images
+  const [selectedImages, setSelectedImages] = useState([]);
   const { theme: appTheme } = useTheme();
   const queryClient = useQueryClient();
 
@@ -91,7 +91,9 @@ const PostBox = () => {
   return (
     <>
       <div className=" rounded-lg px-6 py-3 flex gap-3">
-        <AavatarButton />
+        <div className="h-12 w-12 flex-shrink-0">
+        <AavatarButton size={12}/>
+        </div>
         <div className="w-full flex flex-col gap-3">
           <textarea
               className="focus:outline-none w-full rounded-lg resize-none bg-transparent"

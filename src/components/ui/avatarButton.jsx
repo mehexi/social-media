@@ -1,9 +1,10 @@
+import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const AavatarButton = ({userId}) => {
+const AavatarButton = ({size='12'}) => {
 
   const user = useUser(); 
   const router = useRouter();
@@ -13,7 +14,10 @@ const AavatarButton = ({userId}) => {
       onClick={() => router.push("/profile")}
       width={1020}
       height={1020}
-      className="h-12 w-12 rounded-full cursor-pointer object-cover flex-shrink-0"
+      className={cn(
+        "rounded-full cursor-pointer object-cover flex-shrink-0",
+        `h-${size} w-${size}`
+      )}
       src={user?.user?.imageUrl || "/user.png"}
       alt="User Avatar"
     />

@@ -13,7 +13,7 @@ const ToolTipWrapper = ({ children, title }) => {
         <TooltipTrigger asChild className="w-full">
           {children}
         </TooltipTrigger>
-        <TooltipContent>{title}</TooltipContent>
+        <TooltipContent className='capitalize'>{title}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

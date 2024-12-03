@@ -134,7 +134,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
                   <div
                     className={`grid  items-center justify-center ${
                       post.parentTweet.image.length > 1
-                        ? "grid-cols-2"
+                        ? "grid-cols-2 "
                         : "grid-cols-1"
                     } gap-2 mt-2`}
                   >
@@ -161,21 +161,20 @@ const SinglePost = ({ post, onReplySubmit }) => {
 
         {post.hasImage ? (
           <div
-            className={`flex items-start justify-start ${
-              post.image.length > 1 ? " " : ""
-            } gap-2 mt-2`}
+            className={`flex items-start justify-start gap-2 mt-2`}
           >
             {post.image.map((image, i) => (
-              <Image
-                width={200}
-                height={384}
-                key={i}
-                alt={post.content}
-                src={image}
-                className={`col-span-1 w-fit  max-h-96 ${
-                  post.image.length <= 1 ? "object-contain" : "object-cover"
-                }`}
-              />
+                <Image
+                  width={200}
+                  height={384}
+                  key={i}
+                  alt={post.content}
+                  src={image}
+                  className={`col-span-1 w-fit flex-wrap max-h-96 rounded-lg ${
+                    post.image.length <= 1 ? "object-contain" : "object-cover"
+                  }`}
+                />
+                
             ))}
           </div>
         ) : null}

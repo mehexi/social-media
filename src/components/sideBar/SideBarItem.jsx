@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Button } from "../ui/button";
-import { BarChart } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const SideBarItem = ({ data }) => {

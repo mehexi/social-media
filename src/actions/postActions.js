@@ -4,6 +4,9 @@ import axios from "axios";
 
 const deletePost = async (id) => {
     const res = await axios.delete(`/api/post?id=${id}`);
+    toast({
+        title: "Post deleted",
+    })
     return res.data;
 };
 
@@ -29,7 +32,21 @@ export const bookMarkPost = async (id) => {
     } catch (error) {
         console.error(error);
         toast({
-            title: "Something Went Wrong    ",
+            title: "Something Went Wrong",
         });
     }
 };
+
+export const pinPost = async (id) => {
+    try {
+        toast({
+            title: `Pinning Post ${id}`,    
+        })
+    }
+    catch (error) {
+        console.error(error);
+        toast({
+            title: "Something Went Wrong",
+        })
+    }
+}

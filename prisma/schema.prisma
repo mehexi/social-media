@@ -15,13 +15,22 @@ model User {
   bio              String?
   createdAt        DateTime       @default(now())
   tweets           Tweet[]        @relation()
-  pinnedTweetsID   String[]
+  pinnedTweetsID   PinnedTweets[] @relation()
   tweetIds         String[]       @default([])
   bookmarks        Bookmark[]     @relation("UserBookmarks")
   notifications    Notification[]
   messagesSent     Message[]      @relation("SentMessages")
   likes            String[]       @default([])
   messagesReceived Message[]      @relation("ReceivedMessages")
+}
+
+model PinnedTweets {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @db.ObjectId
+  user      User  @relation(fields: [userId] , references: [id])
+  tweetId   String  @db.ObjectId
+  tweet     Tweet  @relation(fields: [tweetId] , references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Tweet {
@@ -35,6 +44,7 @@ model Tweet {
   parentTweetId String?    @db.ObjectId
   parentTweet   Tweet?     @relation("Replies", fields: [parentTweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies       Tweet[]    @relation("Replies")
+  pinnedTweet   PinnedTweets[] @relation()
   bookmarks     Bookmark[]
   likes         String[]   @default([])
   likeCount     Int        @default(0)

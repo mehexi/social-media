@@ -13,10 +13,11 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useToast } from "./use-toast";
-import { bookMarkPost, useDeletePost } from "@/actions/postActions";
+import { bookMarkPost, pinPost, useDeletePost } from "@/actions/postActions";
 
 const useMenu = (tweet, isAuthor, setOpen) => {
   const [isBookmarked, setIsBookmarked] = useState(tweet.isBookmarked);
+  const [pinned,setIsPinned] = useState()
   const { toast } = useToast();
   const deletePostMutation = useDeletePost();
   
@@ -65,6 +66,11 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     }
   };
 
+  const togglePin = async() => {
+    const pinned = await pinPost(tweet.id)  
+    setIsPinned(pinned)
+  }
+
   const menus = useMemo(() => {
     const commonMenus = [
       {
@@ -85,7 +91,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         {
           label: "Pin to Profile",
           icon: Pin,
-          onClick: () => console.log("Tweet pinned"),
+          onClick: () => togglePin(),
         },
         {
           label: "Edit",

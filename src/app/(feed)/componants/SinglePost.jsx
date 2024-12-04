@@ -158,23 +158,18 @@ const SinglePost = ({ post, onReplySubmit }) => {
             </>
           </div>
         ) : null}
-
         {post.hasImage ? (
-          <div
-            className={`flex items-start justify-start gap-2 mt-2`}
-          >
+          <div className="grid grid-cols-2 mt-3 gap-1 h-full">
             {post.image.map((image, i) => (
-                <Image
-                  width={200}
-                  height={384}
-                  key={i}
-                  alt={post.content}
-                  src={image}
-                  className={`col-span-1 w-fit flex-wrap max-h-96 rounded-lg ${
-                    post.image.length <= 1 ? "object-contain" : "object-cover"
-                  }`}
-                />
-                
+              <Image
+                width={200}
+                height={384}
+                key={i}
+                draggable="false"
+                alt={post.content}
+                src={image}
+                className="w-full rounded-xl max-h-96 h-full object-cover"
+              />
             ))}
           </div>
         ) : null}

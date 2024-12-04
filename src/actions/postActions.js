@@ -39,9 +39,9 @@ export const bookMarkPost = async (id) => {
 
 export const pinPost = async (id) => {
     try {
-        toast({
-            title: `Pinning Post ${id}`,    
-        })
+        const res = await axios.post(`/api/pin/?id=${id}`)
+        const { message, added } = res.data
+        return added
     }
     catch (error) {
         console.error(error);

@@ -5,7 +5,7 @@ const FormattedContent = ({ content }) => {
 
   const formattedContent = content.split("\n").map((line, index) => {
     const formattedLine = line.replace(hashtagRegex, (match, hashtag) => {
-      return `<a href="/hashtag/${hashtag}" class="text-blue-500 hover:underline">#${hashtag}</a>`;
+      return `<a href="/hashtag/${hashtag}" class="text-primary hover:underline">#${hashtag}</a>`;
     });
 
     return (

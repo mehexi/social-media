@@ -31,6 +31,7 @@ export async function GET(req) {
         user: true,
         replies: true,
         bookmarks: true,
+        pinnedTweet: true,
       },
     });
 
@@ -40,6 +41,7 @@ export async function GET(req) {
       isBookmarked: tweet.bookmarks.some(
         (bookmark) => bookmark.userId === currentUser.id
       ),
+      isPinned: tweet.pinnedTweet.some((pin) => pin.userId === currentUser.id),
     }));
 
     return NextResponse.json({ newTweets }, { status: 200 });

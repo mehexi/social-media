@@ -16,10 +16,10 @@ const PostSkeleton = () => {
 
         <div className="text-nowrap w-10/12 h-40"></div>
         <div className="flex justify-between">
-          <Skeleton className={"w-24 h-4"} />
-          <Skeleton className={"w-24 h-4"} />
-          <Skeleton className={"w-24 h-4"} />
-          <Skeleton className={"w-24 h-4"} />
+          <Skeleton className={"w-24 max-sm:w-12 h-4"} />
+          <Skeleton className={"w-24 max-sm:w-12 h-4"} />
+          <Skeleton className={"w-24 max-sm:w-12 h-4"} />
+          <Skeleton className={"w-24 max-sm:w-12 h-4"} />
         </div>
       </div>
       <Separator/>

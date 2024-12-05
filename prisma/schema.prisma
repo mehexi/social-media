@@ -22,15 +22,18 @@ model User {
   messagesSent     Message[]      @relation("SentMessages")
   likes            String[]       @default([])
   messagesReceived Message[]      @relation("ReceivedMessages")
+  
+  following Follow[] @relation("UserFollowing")
+  followers Follow[] @relation("UserFollowers")
 }
 
-model PinnedTweets {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String  @db.ObjectId
-  user      User  @relation(fields: [userId] , references: [id])
-  tweetId   String  @db.ObjectId
-  tweet     Tweet  @relation(fields: [tweetId] , references: [id])
-  createdAt DateTime @default(now())
+model Follow {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  followerId  String    @db.ObjectId
+  followeeId  String    @db.ObjectId
+  
+  follower    User      @relation("UserFollowers", fields: [followerId], references: [id])
+  followee    User      @relation("UserFollowing", fields: [followeeId], references: [id])
 }
 
 model Tweet {
@@ -66,6 +69,15 @@ model Bookmark {
   tweet   Tweet  @relation(fields: [tweetId], references: [id])
   userId  String @db.ObjectId
   user    User   @relation("UserBookmarks", fields: [userId], references: [id])
+}
+
+model PinnedTweets {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @db.ObjectId
+  user      User  @relation(fields: [userId] , references: [id])
+  tweetId   String  @db.ObjectId
+  tweet     Tweet  @relation(fields: [tweetId] , references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Message {

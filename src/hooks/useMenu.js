@@ -31,42 +31,63 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     });
   };
 
-  //copy to clipboard
   const tweetLink = () => {
     const link = `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`;
-
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
-        toast({
-          title: "Link copied!",
-          description: "The tweet link has been copied to your clipboard.",
-          className: "text-sm",
-        });
+  
+    // Check clipboard permissions
+    navigator.permissions
+      .query({ name: "clipboard-write" }) // Only available in secure contexts
+      .then((result) => {
+        if (result.state === "granted" || result.state === "prompt") {
+          navigator.clipboard
+            .writeText(link)
+            .then(() => {
+              toast({
+                title: "Link copied!",
+                description: "The tweet link has been copied to your clipboard.",
+                className: "text-sm",
+              });
+            })
+            .catch(() => {
+              toast({
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem copying the link.",
+              });
+            });
+        } else {
+          toast({
+            title: "Permission Denied",
+            description: "Clipboard access is required to copy the link.",
+          });
+        }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Error checking clipboard permissions", error);
         toast({
           title: "Uh oh! Something went wrong.",
-          description: "There was a problem copying the link.",
+          description: "There was a problem checking permissions.",
         });
       });
   };
   
-  //share
+  // Share
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
         title: `${tweet.user.userName}`,
         text: `${tweet.content}`,
-        url:  `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`,
+        url: `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`,
       })
-        .then(() => console.log('Successfully shared'))
-        .catch((error) => console.error('Error sharing', error));
+        .then(() => console.log("Successfully shared"))
+        .catch((error) => console.error("Error sharing", error));
     } else {
-      console.log('Share API not supported on this device/browser.');
+      toast({
+        title: "Share Not Supported",
+        description: "Your browser does not support the Web Share API.",
+      });
     }
   };
-
+  
   const togglePin = async() => {
     const pinned = await pinPost(tweet.id)  
     setIsPinned(pinned)

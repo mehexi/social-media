@@ -76,7 +76,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
                 {post.user.userName}
               </span>
             </h1>
-            {post.updatedAt ? (
+            {post.updatedAt && post.updatedAt !== post.createdAt ? (
               <span className="text-secondary-foreground/60 text-xs font-thin flex gap-1">
                 <h1>edited .</h1>
                 <FormattedDate
@@ -162,13 +162,13 @@ const SinglePost = ({ post, onReplySubmit }) => {
           <div className="grid grid-cols-2 mt-3 gap-1 h-full">
             {post.image.map((image, i) => (
               <Image
-                width={200}
-                height={384}
+                width={1000}
+                height={1000}
                 key={i}
                 draggable="false"
                 alt={post.content}
                 src={image}
-                className="w-full rounded-xl max-h-96 h-full object-cover"
+                className={`w-full rounded-xl max-h-96 h-full object-cover ${post.image.length <= 1 && 'col-span-2'}`}
               />
             ))}
           </div>

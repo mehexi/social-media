@@ -1,6 +1,6 @@
 import prisma from "@/lib/prismaDb";
 
-export const getTweetById =async (tweetId) => {
+export const getTweetById = async (tweetId) => {
     try {
         if (!tweetId) {
             console.log('tweet Id required')

@@ -6,17 +6,23 @@ import FollowBtn from "./FollowBtn";
 import { Separator } from "./separator";
 import { Calendar } from "lucide-react";
 import FormattedDate from "./FormatedTime";
+import { Skeleton } from "./skeleton";
 
 const OtherUserAvatars = ({ id }) => {
-  const [user, setUser] = useState(null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true)
     const getUser = async () => {
       try {
         const response = await axios.get(`/api/clerkUser?userId=${id}`);
-        setUser(response.data);
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching user:", error);
+      }
+      finally {
+        setLoading(false)
       }
     };
 
@@ -24,6 +30,10 @@ const OtherUserAvatars = ({ id }) => {
       getUser();
     }
   }, [id]);
+
+  if(loading) return <Skeleton className='w-8 h-8 rounded-full flex-shrink-0'/>
+
+  const { user, userFromDB } = data
 
   return (
     <HoverCard>
@@ -45,11 +55,11 @@ const OtherUserAvatars = ({ id }) => {
           src={user?.imageUrl || "/user.png"}
           className="w-14 h-14 rounded-full object-cover"
           />
-          <FollowBtn user={id} />
+          <FollowBtn user={userFromDB} />
         </div>
         <Separator />
         <div className="flex flex-col ">
-          <h1 className="capitalize">{user?.username}</h1>
+          <h1 className="capitalize">{ user?.firstName ? user?.firstName + ' ' +  user?.lastName  : user?.username}</h1>
           <p className="text-primary text-sm">@{user?.username}</p>
           <p className="text-secondary-foreground/20 truncate">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure consectetur fuga vitae similique earum saepe aspernatur dicta in voluptate nesciunt, ullam amet, ratione quidem? Voluptates odit repudiandae laudantium totam quasi?

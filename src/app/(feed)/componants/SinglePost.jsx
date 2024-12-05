@@ -73,7 +73,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
             <h1 className="group">
               @
               <span className="cursor-pointer group-hover:underline">
-                {post.user.userName}
+                {post.user.userName} 
               </span>
             </h1>
             {post.updatedAt && post.updatedAt !== post.createdAt ? (

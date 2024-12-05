@@ -11,7 +11,7 @@ const useRoute = () => {
             label: 'Home',
             href: '/',
             icon: Home,
-            active: pathName === "/" 
+            active: pathName === "/" || pathName === "/following",
         },
         {
             label: 'explore',

@@ -15,6 +15,9 @@ export const getUserData = async () => {
       where: {
         clerkUserId: user.id,
       },
+      include: {
+        followers: true
+      }
     });
 
     if (!loggedInUser) {

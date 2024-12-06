@@ -176,11 +176,10 @@ const SinglePost = ({ post, onReplySubmit }) => {
         <Separator className="mt-3" />
         <div className="flex justify-between pr-3 pt-3">
           <Button
-            disabled={isLiking}
             variant="ghost"
             className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"
-            }`}
+            } ${isLiking? 'pointer-events-none' : 'pointer-events-auto'}`}
             onClick={() => handleLike(post.id)}
           >
             <span className="p-2 rounded-full">

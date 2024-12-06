@@ -7,11 +7,26 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
+    const isFollower = searchParams.get("isFollower") === "true"; // Check if isFollower is true
     const currentUser = await getUserData();
 
-    console.log(page, limit);
+    let whereCondition = {};
 
+    if (isFollower) {
+      const followeeIds = currentUser.following.map(f => f.followerId);
+      console.log(followeeIds)
+      whereCondition = {
+        user: {
+          id: {
+           in: followeeIds,
+         }
+        }
+      };
+    }
+
+    // Fetch tweets with or without condition
     const tweets = await prisma.tweet.findMany({
+      where: whereCondition,
       skip: (page - 1) * limit,
       take: limit,
       orderBy: {

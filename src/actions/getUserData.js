@@ -16,7 +16,8 @@ export const getUserData = async () => {
         clerkUserId: user.id,
       },
       include: {
-        followers: true
+        followers: true,
+        following: true
       }
     });
 

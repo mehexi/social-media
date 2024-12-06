@@ -6,10 +6,29 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import SinglePost from "./SinglePost";
 import PostSkeleton from "./PostSkeleton";
 
-const fetchPosts = async ({ pageParam = 1 }) => {
-  const res = await axios.get(`/api/getPost?page=${pageParam}&limit=2`);
-  console.log("Fetched data:", res.data); // Debugging
-  return res.data.newTweets || []; // Ensure this matches your response structure
+// Exportable fetchPosts function
+export const fetchPosts = async ({ pageParam = 1,isFollower=false }) => {
+  const res = await axios.get(`/api/getPost`, {
+    params: {
+      page: pageParam,
+      limit: 2,
+      isFollower
+    },
+  });
+
+  return res.data.newTweets || [];
+};
+
+// Exportable useFetchPosts hook
+export const useFetchPosts = (isFollower) => {
+  return useInfiniteQuery({
+    queryKey: ["posts", isFollower], 
+    queryFn: ({ pageParam = 1 }) => fetchPosts({ pageParam, isFollower }),
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = allPages.length + 1;
+      return lastPage.length > 0 ? nextPage : undefined;
+    },
+  });
 };
 
 const PostBody = () => {
@@ -17,22 +36,12 @@ const PostBody = () => {
   const topRef = useRef(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery({
-      queryKey: ["posts"],
-      queryFn: fetchPosts,
-      getNextPageParam: (lastPage, allPages) => {
-        const nextPage = allPages.length + 1; // Track page number
-        return lastPage.length > 0 ? nextPage : undefined; // Ensure more pages exist
-      },
-    });
-
-  console.log("Has Next Page:", hasNextPage); // Debugging
+    useFetchPosts();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          console.log("Fetching next page...");
           fetchNextPage();
         }
       },
@@ -79,9 +88,9 @@ const PostBody = () => {
         <div>
           {data?.pages?.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.map((tweet, index) => (
+              {page.map((tweet) => (
                 <SinglePost
-                  key={index}
+                  key={tweet.id}
                   post={tweet}
                   onReplySubmit={scrollToTop}
                 />
@@ -89,7 +98,7 @@ const PostBody = () => {
             </div>
           ))}
           <div ref={lastPostRef} className="">
-            <PostSkeleton/>
+            <PostSkeleton />
           </div>
         </div>
         {isFetchingNextPage && <PostSkeleton />}

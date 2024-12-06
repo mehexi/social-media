@@ -50,7 +50,6 @@ const FollowPostFeed = () => {
     }, 200); // Delay ensures DOM updates first
   };
 
-  // Handle loading and error states
   if (status === "loading") {
     return <PostSkeleton />;
   }

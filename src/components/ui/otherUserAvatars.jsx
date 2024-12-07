@@ -34,7 +34,6 @@ const OtherUserAvatars = ({ id }) => {
     return <Skeleton className="w-8 h-8 rounded-full flex-shrink-0" />;
 
   const { user, userFromDB, isFollowing } = data;
-  console.log(isFollowing, user.username)
 
   return (
     <HoverCard>

@@ -8,8 +8,6 @@ export async function POST(req) {
     const { searchParams } = new URL(req.url);
     const followerId = searchParams.get("id");
 
-    console.log(user.id, followerId);
-
     const existingFollow = await prisma.follow.findFirst({
       where: {
         followerId: followerId,

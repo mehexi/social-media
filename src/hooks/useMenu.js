@@ -14,22 +14,31 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useToast } from "./use-toast";
-import { bookMarkPost, pinPost, useDeletePost } from "@/actions/postActions";
+import { bookMarkPost,  pinPost, useDeletePost } from "@/actions/postActions";
 
 const useMenu = (tweet, isAuthor, setOpen) => {
   const [isBookmarked, setIsBookmarked] = useState(tweet.isBookmarked);
   const [pinned,setIsPinned] = useState(tweet.isPinned)
+  const [isFollowed,setIsFollowed] = useState(tweet.isFollowing)
   const { toast } = useToast();
   const deletePostMutation = useDeletePost();
   
+  console.log(tweet)
   //toggle bm
   const toggleBookmark = async () => {
     const added = await bookMarkPost(tweet.id);
-    setIsBookmarked(added);
     toast({
       title: added ? "Added to Bookmarks" : "Removed from Bookmarks",
     });
   };
+
+  window.addEventListener("bookmark", (event) => {
+    const { tweetId, added } = event.detail;
+    console.log(tweetId, added);
+    if (tweet.id === tweetId) {
+      setIsBookmarked(added);
+    }
+  });
 
   const tweetLink = () => {
     const link = `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`;
@@ -88,6 +97,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     }
   };
   
+  //pin
   const togglePin = async() => {
     const pinned = await pinPost(tweet.id)  
     setIsPinned(pinned)
@@ -96,6 +106,9 @@ const useMenu = (tweet, isAuthor, setOpen) => {
       title: pinned ? "Pinned Too Profile" : "Unpinned",
     })
   }
+
+  //follow
+
 
   const menus = useMemo(() => {
     const commonMenus = [
@@ -142,9 +155,9 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     return [
       ...commonMenus,
       {
-        label: `Follow ${tweet.user.userName}`,
+        label: !isFollowed ? `Follow ${tweet.user.userName}` : `UnFollow ${tweet.user.userName}`,
         icon: UserPlus2,
-        onClick: () => console.log(`Followed user ID: ${tweet.authorId}`),
+        onClick: () => handleFollow(),
       },
       {
         label: isBookmarked ? "Remove from Bookmarks" : "Add to Bookmarks",

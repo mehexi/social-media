@@ -51,12 +51,18 @@ const SinglePost = ({ post, onReplySubmit }) => {
 
   const toggleBookmark = async () => {
     const added = await bookMarkPost(post.id);
-    setIsBookmarked(added);
     toast({
-      title: added ? "Added to Bookmarks" : "Removed from Bookmarks",
+      title: added ? "Added to Bookmarks" : "Removed from Bookmarks"
     });
   };
 
+  window.addEventListener("bookmark", (event) => {
+    const { tweetId, added } = event.detail;
+    console.log(tweetId, added);
+    if (post.id === tweetId) {
+      setIsBookmarked(added);
+    }
+  });
   console.log(post);
 
   return (
@@ -73,7 +79,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
             <h1 className="group">
               @
               <span className="cursor-pointer group-hover:underline">
-                {post.user.userName} 
+                {post.user.userName}
               </span>
             </h1>
             {post.updatedAt && post.updatedAt !== post.createdAt ? (
@@ -168,7 +174,9 @@ const SinglePost = ({ post, onReplySubmit }) => {
                 draggable="false"
                 alt={post.content}
                 src={image}
-                className={`w-full rounded-xl max-h-96 h-full object-cover ${post.image.length <= 1 && 'col-span-2'}`}
+                className={`w-full rounded-xl max-h-96 h-full object-cover ${
+                  post.image.length <= 1 && "col-span-2"
+                }`}
               />
             ))}
           </div>
@@ -179,7 +187,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
             variant="ghost"
             className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"
-            } ${isLiking? 'pointer-events-none' : 'pointer-events-auto'}`}
+            } ${isLiking ? "pointer-events-none" : "pointer-events-auto"}`}
             onClick={() => handleLike(post.id)}
           >
             <span className="p-2 rounded-full">

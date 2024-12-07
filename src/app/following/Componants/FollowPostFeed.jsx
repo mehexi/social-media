@@ -4,6 +4,8 @@ import { useFetchPosts } from "@/app/(feed)/componants/PostBody";
 import PostSkeleton from "@/app/(feed)/componants/PostSkeleton";
 import SinglePost from "@/app/(feed)/componants/SinglePost";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const FollowPostFeed = () => {
   const isFollower = true; // Fetch posts for followers
@@ -57,6 +59,26 @@ const FollowPostFeed = () => {
   if (status === "error") {
     return <div>Something went wrong.</div>;
   }
+
+  if (data.pages[0].length <= 0) {
+    return (
+      <div className="w-full flex items-center justify-center  flex-col gap-3">
+        <div className="flex flex-col gap-1 mt-6 ">
+          <h1 className="text-3xl">Welcome to Xwitter!</h1>
+          <p className="text-secondary-foreground/50">
+            It seems like you&apos;re not following anyone yet.
+          </p>
+          <Link href={'/explore'}>
+          <Button className="w-fit mt-4">
+            Discover People to Follow
+          </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  console.log(data);
 
   return (
     <>

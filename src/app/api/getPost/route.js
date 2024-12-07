@@ -43,7 +43,15 @@ export async function GET(req) {
             },
           },
         },
-        user: true,
+        user: {
+          include: {
+            followers: {
+              select: {
+                followeeId: true
+              }
+            }
+          }
+        },
         replies: true,
         bookmarks: true,
         pinnedTweet: true,
@@ -57,6 +65,7 @@ export async function GET(req) {
         (bookmark) => bookmark.userId === currentUser.id
       ),
       isPinned: tweet.pinnedTweet.some((pin) => pin.userId === currentUser.id),
+      isFollowing: tweet.user.followers.some((follower) => follower.followeeId === currentUser.id)
     }));
 
     return NextResponse.json({ newTweets }, { status: 200 });

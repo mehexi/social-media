@@ -1,6 +1,5 @@
 import {
   BarChart,
-  Blocks,
   Bookmark,
   CircleSlash,
   Flag,
@@ -12,19 +11,20 @@ import {
   Undo,
   UserPlus2,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useToast } from "./use-toast";
-import { bookMarkPost,  pinPost, useDeletePost } from "@/actions/postActions";
+import { bookMarkPost, pinPost, useDeletePost, followUser } from "@/actions/postActions";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useMenu = (tweet, isAuthor, setOpen) => {
   const [isBookmarked, setIsBookmarked] = useState(tweet.isBookmarked);
-  const [pinned,setIsPinned] = useState(tweet.isPinned)
-  const [isFollowed,setIsFollowed] = useState(tweet.isFollowing)
+  const [pinned, setIsPinned] = useState(tweet.isPinned);
+  const [isFollowed, setIsFollowed] = useState(tweet.isFollowing);
   const { toast } = useToast();
   const deletePostMutation = useDeletePost();
-  
-  console.log(tweet)
-  //toggle bm
+  const queryClient = useQueryClient();
+
+  // Bookmark toggle
   const toggleBookmark = async () => {
     const added = await bookMarkPost(tweet.id);
     toast({
@@ -32,20 +32,34 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     });
   };
 
-  window.addEventListener("bookmark", (event) => {
-    const { tweetId, added } = event.detail;
-    console.log(tweetId, added);
-    if (tweet.id === tweetId) {
-      setIsBookmarked(added);
+  // Follow toggle
+  const handleFollow = async () => {
+    try {
+      const newFollowStatus = await followUser(tweet.user.id);
+      setIsFollowed(newFollowStatus);
+      queryClient.invalidateQueries(["posts"]);
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+      });
     }
-  });
+  };
 
+  // Pin toggle
+  const togglePin = async () => {
+    const pinned = await pinPost(tweet.id);
+    setIsPinned(pinned);
+    toast({
+      title: pinned ? "Pinned To Profile" : "Unpinned",
+    });
+  };
+
+  // Copy tweet link
   const tweetLink = () => {
     const link = `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`;
-  
-    // Check clipboard permissions
     navigator.permissions
-      .query({ name: "clipboard-write" }) // Only available in secure contexts
+      .query({ name: "clipboard-write" })
       .then((result) => {
         if (result.state === "granted" || result.state === "prompt") {
           navigator.clipboard
@@ -54,7 +68,6 @@ const useMenu = (tweet, isAuthor, setOpen) => {
               toast({
                 title: "Link copied!",
                 description: "The tweet link has been copied to your clipboard.",
-                className: "text-sm",
               });
             })
             .catch(() => {
@@ -78,8 +91,8 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         });
       });
   };
-  
-  // Share
+
+  // Share tweet
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -96,19 +109,31 @@ const useMenu = (tweet, isAuthor, setOpen) => {
       });
     }
   };
-  
-  //pin
-  const togglePin = async() => {
-    const pinned = await pinPost(tweet.id)  
-    setIsPinned(pinned)
-    console.log(pinned)
-    toast({
-      title: pinned ? "Pinned Too Profile" : "Unpinned",
-    })
-  }
 
-  //follow
+  // Add event listeners for bookmark and follow
+  useEffect(() => {
+    const handleBookmarkEvent = (event) => {
+      const { tweetId, added } = event.detail;
+      if (tweet.id === tweetId) {
+        setIsBookmarked(added);
+      }
+    };
 
+    const handleFollowEvent = (event) => {
+      const { followId, isFollowing } = event.detail;
+      if (tweet.user.id === followId) {
+        setIsFollowed(isFollowing);
+      }
+    };
+
+    window.addEventListener("bookmark", handleBookmarkEvent);
+    window.addEventListener("follow", handleFollowEvent);
+
+    return () => {
+      window.removeEventListener("bookmark", handleBookmarkEvent);
+      window.removeEventListener("follow", handleFollowEvent);
+    };
+  }, [tweet.id, tweet.user.id]);
 
   const menus = useMemo(() => {
     const commonMenus = [
@@ -125,11 +150,11 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     ];
 
     if (isAuthor) {
-      return [ 
+      return [
         ...commonMenus,
         {
-          label: pinned? 'Already Pinned' : 'Pin too Profile',
-          icon: !pinned? Pin : Undo,
+          label: pinned ? "Already Pinned" : "Pin to Profile",
+          icon: !pinned ? Pin : Undo,
           onClick: () => togglePin(),
         },
         {
@@ -155,20 +180,23 @@ const useMenu = (tweet, isAuthor, setOpen) => {
     return [
       ...commonMenus,
       {
-        label: !isFollowed ? `Follow ${tweet.user.userName}` : `UnFollow ${tweet.user.userName}`,
+        label: !isFollowed
+          ? `Follow ${tweet.user.userName}`
+          : `Unfollow ${tweet.user.userName}`,
         icon: UserPlus2,
         onClick: () => handleFollow(),
       },
       {
-        label: isBookmarked ? "Remove from Bookmarks" : "Add to Bookmarks",
+        label: isBookmarked
+          ? "Remove from Bookmarks"
+          : "Add to Bookmarks",
         icon: Bookmark,
         onClick: () => toggleBookmark(),
       },
       {
         label: `Block ${tweet.user.userName}`,
         icon: CircleSlash,
-        class: "",
-        onClick: () => console.log(`Blocked user: ${tweet.userId}`),
+        onClick: () => console.log(`Blocked user: ${tweet.user.id}`),
       },
       {
         label: "Report Tweet",
@@ -177,7 +205,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
         onClick: () => console.log(`Reported tweet ID: ${tweet.id}`),
       },
     ];
-  }, [tweet, isAuthor,deletePostMutation,setOpen]);
+  }, [tweet, isAuthor, pinned, isFollowed, isBookmarked]);
 
   return menus;
 };

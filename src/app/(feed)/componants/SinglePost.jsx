@@ -35,7 +35,6 @@ const SinglePost = ({ post, onReplySubmit }) => {
     setIsLiked(true);
     try {
       const res = await axios.post("/api/toggleLike", { tweetId });
-      console.log(res);
       const { isLiked: updatedIsLiked, like: updatedLikeCount } = res.data;
 
       setLike(updatedLikeCount);
@@ -58,12 +57,10 @@ const SinglePost = ({ post, onReplySubmit }) => {
 
   window.addEventListener("bookmark", (event) => {
     const { tweetId, added } = event.detail;
-    console.log(tweetId, added);
     if (post.id === tweetId) {
       setIsBookmarked(added);
     }
   });
-  console.log(post);
 
   return (
     <div className="flex px-3 py-3 border-b  gap-3 hover:bg-accent/20">

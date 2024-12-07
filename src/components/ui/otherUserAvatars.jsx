@@ -11,6 +11,7 @@ import { Skeleton } from "./skeleton";
 const OtherUserAvatars = ({ id }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [followState,setIsFollowing] = useState(null)
 
   useEffect(() => {
     setLoading(true);
@@ -18,6 +19,7 @@ const OtherUserAvatars = ({ id }) => {
       try {
         const response = await axios.get(`/api/clerkUser?userId=${id}`);
         setData(response.data);
+        setIsFollowing(response.data.isFollowing)
       } catch (error) {
         console.error("Error fetching user:", error);
       } finally {
@@ -30,10 +32,25 @@ const OtherUserAvatars = ({ id }) => {
     }
   }, [id]);
 
+  useEffect(() => {
+    const handleFollowEvent = (e) => {
+      console.log('Received follow event:', e);
+      if (e.detail.followId === data?.userFromDB?.id) {
+        setIsFollowing(e.detail.isFollowing);
+      } 
+    };
+  
+    window.addEventListener('follow', handleFollowEvent);
+  
+    return () => {
+      window.removeEventListener('follow', handleFollowEvent);
+    };
+  }, [data?.userFromDB?.id]);
+
   if (loading)
     return <Skeleton className="w-8 h-8 rounded-full flex-shrink-0" />;
 
-  const { user, userFromDB, isFollowing } = data;
+  const { user, userFromDB } = data;
 
   return (
     <HoverCard>
@@ -63,7 +80,7 @@ const OtherUserAvatars = ({ id }) => {
             src={user?.imageUrl || "/user.png"}
             className="w-14 h-14 rounded-full object-cover"
           />
-          <FollowBtn followeeUser={userFromDB} followStatus={isFollowing} user={user} />
+          <FollowBtn followeeUser={userFromDB} followStatus={followState} user={user} />
         </div>
         <Separator />
         <div className="flex flex-col ">

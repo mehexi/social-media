@@ -55,14 +55,28 @@ export const pinPost = async (id) => {
   }
 };
 
- const followUser = async (id) => {
-  const res = await axios.post(`/api/toogleFollow/?id=${id}`);
-  toast({
-    title: res.data.follow ? "User Added To Followed List" : "UnFollowed"
-  });
-  return res.data.follow;
-};
-
-export const useFollow = () => {
+export const followUser = async (id) => {
+  try {
+    const res = await axios.post(`/api/toogleFollow/?id=${id}`);
+    const isFollowing = res.data.follow;
     
-}
+    window.dispatchEvent(
+      new CustomEvent("follow", {
+        detail: { followId: id, isFollowing },
+      })
+    );
+
+    toast({
+      title: isFollowing ? "User Added To Followed List" : "UnFollowed",
+    });
+
+    return isFollowing;
+  } catch (error) {
+    console.error("Error toggling follow status:", error);
+    toast({
+      title: "Error",
+      description: "An error occurred while updating the follow status.",
+    });
+    throw error;
+  }
+};

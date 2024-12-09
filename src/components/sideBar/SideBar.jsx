@@ -8,7 +8,7 @@ const SideBar = () => {
   const routes = useRoute();
 
   return (
-    <div className="max-md:col-span-1 col-span-2 border-r h-screen flex flex-col gap-1 py-6 justify-between max-sm:hidden">
+    <div className="max-md:col-span-1 col-span-2 h-screen flex flex-col gap-1 py-6 justify-between max-sm:hidden items-center">
       <div className="flex flex-col gap-2">
         {routes.map((route, i) => (
           <SideBarItem key={i} data={route} />

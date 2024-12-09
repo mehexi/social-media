@@ -31,7 +31,7 @@ const OtherUserAvatars = ({ id }) => {
       getUser();
     }
   }, [id]);
-
+  
   useEffect(() => {
     const handleFollowEvent = (e) => {
       console.log('Received follow event:', e);
@@ -61,8 +61,8 @@ const OtherUserAvatars = ({ id }) => {
               ? `${user.firstName}'s Avatar`
               : "Default User Avatar"
           }
-          width={1024}
-          height={1024}
+          width={40}
+          height={40}
           src={user?.imageUrl || "/user.png"}
           className="w-8 h-8 rounded-full object-cover flex-shrink-0"
         />

@@ -11,9 +11,7 @@ import {
   DropdownMenuGroup,
 } from "./dropdown-menu";
 import { LogOut, User } from "lucide-react";
-import ToggleDark from "../darkmode/ToggleDark";
 import { ThemeColorToggle } from "../darkmode/ThemeColor";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const UserButton = () => {
   const user = useUser();
@@ -40,7 +38,7 @@ const UserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="select-none outline-none capitalize">
-        <button className="w-full bg-none hover:bg-none rounded-full flex items-center justify-start px-1 hover:bg-popover">
+        <button className="w-full bg-none hover:bg-none rounded-full flex items-center justify-start px-1 hover:bg-popover max-md:w-fit">
           <div className="flex gap-3 items-center">
             <UserIcon />
             <div className="text-start flex flex-col max-md:hidden">

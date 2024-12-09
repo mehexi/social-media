@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import ReactQueryProvider from "./provider/ReactQueryProvider";
 import ThemeDataProvider from "./provider/ThemeDataProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 const poppins = Poppins({
   subsets: ["latin"],

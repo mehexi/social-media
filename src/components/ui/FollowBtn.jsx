@@ -8,15 +8,13 @@ const FollowBtn = ({ followeeUser, followStatus }) => {
 
   const handleFollow = async () => {
     try {
-      const res = await followUser(followeeUser.id);
+       await followUser(followeeUser.id);
       queryClient.invalidateQueries(["posts"]);
     } catch (error) {
       console.error("Error handling follow:", error);
     }
   };
-
-  console.log(followStatus)
-
+  
   return (
     <Button
       className="h-8 rounded-full"

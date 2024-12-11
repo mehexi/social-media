@@ -1,7 +1,8 @@
 import React from "react";
 import FollowItem from "../following/Componants/FollowItem";
 
-const SideFollow = ({ allUsers }) => {
+const SideFollow = async () => {
+  const allUsers = await getAllUser();
   return (
     <div className="border h-20">
       {allUsers.map((user) => (

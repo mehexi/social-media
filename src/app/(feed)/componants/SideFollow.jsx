@@ -1,14 +1,10 @@
 import React from "react";
-import FollowItem from "../following/Componants/FollowItem";
-import { getAllUser } from "@/actions/getAllUser";
+import FollowCOntainer from "./FollowCOntainer";
 
 const SideFollow = async () => {
-  const allUsers = await getAllUser();
   return (
     <div className="border h-20">
-      {allUsers.map((user) => (
-        <FollowItem key={user.id} data={user} />
-      ))}
+     <FollowCOntainer/>
     </div>
   );
 };

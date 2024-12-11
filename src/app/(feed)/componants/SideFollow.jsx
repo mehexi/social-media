@@ -1,5 +1,6 @@
 import React from "react";
 import FollowItem from "../following/Componants/FollowItem";
+import { getAllUser } from "@/actions/getAllUser";
 
 const SideFollow = async () => {
   const allUsers = await getAllUser();

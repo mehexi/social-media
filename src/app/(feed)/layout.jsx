@@ -1,7 +1,8 @@
+export const dynamic = "force-dynamic";
+
 import MobileNav from "@/components/sideBar/MobileNav";
 import SideBar from "@/components/sideBar/SideBar";
 import SideFollow from "./componants/SideFollow";
-import { getAllUser } from "@/actions/getAllUser";
 
 export const metadata = {
   title: "Home / Y",
@@ -9,9 +10,6 @@ export const metadata = {
 };
 
 export default async  function FeedLayout({ children }) {
-
-  const allUsers = await getAllUser()
-  console.log(allUsers)
   
   return (
     <section className="grid grid-cols-12 max-w-5xl mx-auto">

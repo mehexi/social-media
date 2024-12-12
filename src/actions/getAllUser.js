@@ -1,11 +1,15 @@
 import prisma from "@/lib/prismaDb";
 import { getUserData } from "./getUserData";
 
-export async function getAllUser() {
-  try {
-    const currentUser = await getUserData();
+export async function getAllUser () {
+  const currentUser = await getUserData();
 
-    const allUser = await prisma.user.findMany({
+  if (!currentUser?.id) {
+    return [];
+  }
+  
+  try {
+    const allUser  = await prisma.user.findMany({
       where: {
         id: { not: currentUser.id }
       },
@@ -14,9 +18,9 @@ export async function getAllUser() {
       }
     });
 
-    return allUser;
+    return allUser ;
   } catch (error) {
     console.error("Error at get all user:", error);
-    return null; 
+    return null;
   }
 }

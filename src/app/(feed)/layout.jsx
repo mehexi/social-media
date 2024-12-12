@@ -18,7 +18,7 @@ export default async  function FeedLayout({ children }) {
         {children}
         <MobileNav />
       </div>
-      <div className="col-span-3 max-sm:hidden">
+      <div className="col-span-3 max-sm:hidden h-screen overflow-x-auto">
         <SideFollow />
       </div>
     </section>

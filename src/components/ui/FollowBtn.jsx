@@ -15,8 +15,6 @@ const FollowBtn = ({ followeeUser, followStatus }) => {
     }
   };
 
-  console.log(followStatus)
-
   return (
     <Button
       className="h-8 rounded-full"

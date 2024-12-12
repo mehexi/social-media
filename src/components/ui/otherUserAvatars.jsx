@@ -34,7 +34,6 @@ const OtherUserAvatars = ({ id }) => {
 
   useEffect(() => {
     const handleFollowEvent = (e) => {
-      console.log('Received follow event:', e);
       if (e.detail.followId === data?.userFromDB?.id) {
         setIsFollowing(e.detail.isFollowing);
       } 

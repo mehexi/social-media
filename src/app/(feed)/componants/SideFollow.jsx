@@ -4,7 +4,7 @@ import FollowCOntainer from "./FollowCOntainer";
 const SideFollow = async () => {
   return (
     <div className="border h-20">
-     {/* <FollowCOntainer/> */}
+     <FollowCOntainer/>
     </div>
   );
 };

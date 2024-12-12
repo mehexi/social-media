@@ -15,7 +15,6 @@ const nextConfig = {
         pathname: "/**"
       }
     ],
-    target: "serverless"
   }
 };
 

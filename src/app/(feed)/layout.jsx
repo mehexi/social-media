@@ -12,13 +12,13 @@ export const metadata = {
 export default async  function FeedLayout({ children }) {
   
   return (
-    <section className="grid grid-cols-12 max-w-5xl mx-auto">
+    <section className="grid grid-cols-12 max-w-6xl mx-auto">
       <SideBar />
-      <div className="col-span-8 max-md:col-span-11 max-sm:col-span-12  border-r">
+      <div className="col-span-7 max-md:col-span-11 max-sm:col-span-12  border-r">
         {children}
         <MobileNav />
       </div>
-      <div className="col-span-2">
+      <div className="col-span-3 max-sm:hidden">
         <SideFollow />
       </div>
     </section>

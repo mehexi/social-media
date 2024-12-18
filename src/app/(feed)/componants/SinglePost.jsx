@@ -179,9 +179,10 @@ const SinglePost = ({ post, onReplySubmit }) => {
           </div>
         ) : null}
         <Separator className="mt-3" />
-        <div className="flex justify-between pr-3 pt-3">
+        <div className="flex pr-3 pt-3">
           <Button
             variant="ghost"
+            size='icon'
             className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"
             } ${isLiking ? "pointer-events-none" : "pointer-events-auto"}`}

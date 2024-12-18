@@ -81,14 +81,14 @@ const SearchBar = () => {
       {isFocused && (
         <div className="absolute top-full left-0 w-full shadow-lg border bg-background rounded-b-lg z-10">
           {loading && (
-            <div className="p-2 text-sm text-gray-500">Loading...</div>
+            <div className="p-2 text-sm text-gray-500 px-3">Loading...</div>
           )}
           {!loading &&
             (results.users.length > 0 || results.tweets.length > 0) && (
               <ul>
                 {results.users.length > 0 && (
                   <>
-                    <li className="p-2 text-xs text-gray-500">Suggested User</li>
+                    <li className="p-2 text-xs text-gray-500 px-3">Suggested User</li>
                     {results.users.map((user, index) => (
                       <li
                         key={`user-${index}`}
@@ -105,7 +105,7 @@ const SearchBar = () => {
                 )}
                 {results.tweets.length > 0 && (
                   <>
-                    <li className="p-2 text-xs text-gray-500">Tweets</li>
+                    <li className="p-2 text-xs text-gray-500 px-3">Tweets</li>
                     {results.tweets.map((tweet, index) => (
                       <li
                         key={`tweet-${index}`}
@@ -125,7 +125,7 @@ const SearchBar = () => {
           {!loading &&
             results.users.length === 0 &&
             results.tweets.length === 0 && (
-              <div className="p-2 text-sm text-gray-500">No results found</div>
+              <div className="p-2 text-sm text-gray-500 px-3">No results found</div>
             )}
         </div>
       )}

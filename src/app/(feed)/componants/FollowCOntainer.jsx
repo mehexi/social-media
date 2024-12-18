@@ -1,6 +1,6 @@
 import { getAllUser } from "@/actions/getAllUser";
 import React from "react";
-import FollowItem from "../following/Componants/FollowItem";
+import FollowItem from "../../../components/ui/FollowItem";
 
 const FollowCOntainer = async () => {
   const allUsers = await getAllUser();

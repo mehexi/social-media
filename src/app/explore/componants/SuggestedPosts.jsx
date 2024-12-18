@@ -8,7 +8,6 @@ import {
 import React from "react";
 import SuggestedPostItem from "./SuggestedPostItem";
 import { useSearchParams } from "next/navigation";
-import SearchPosts from "./SearchPosts";
 import SinglePost from "@/app/(feed)/componants/SinglePost";
 
 const SuggestedPosts = ({ tweets }) => {

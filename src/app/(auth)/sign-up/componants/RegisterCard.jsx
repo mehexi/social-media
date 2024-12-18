@@ -174,8 +174,7 @@ const RegisterCard = () => {
                   className="rounded-full"
                   disabled={
                     loading ||
-                    form.formState.isSubmitting ||
-                    !form.formState.isValid
+                    form.formState.isSubmitting 
                   }
                 >
                   {loading ? "Registering..." : "Register"}

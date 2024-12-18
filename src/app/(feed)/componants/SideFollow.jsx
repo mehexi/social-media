@@ -1,5 +1,5 @@
 import React from "react";
-import FollowItem from "../following/Componants/FollowItem";
+import FollowItem from "../../../components/ui/FollowItem";
 import { getAllUser } from "@/actions/getAllUser";
 import { Separator } from "@/components/ui/separator";
 

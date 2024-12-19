@@ -1,6 +1,7 @@
 import { getTweetById } from "@/actions/getTweet";
 import { getUserData } from "@/actions/getUserData";
 import prisma from "@/lib/prismaDb";
+import { pusherServer } from "@/lib/pusher";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -67,6 +68,17 @@ export async function POST(req) {
           tweetId: tweet.id,
         },
       });
+
+      const notification = await prisma.notification.create({
+        data: {
+          userId: tweet.user.id,
+          type: 'Like',
+          actorId: user.id,
+          content: `${user.userName} Has Liked Your Tweet`
+        }
+      })
+
+      await pusherServer.trigger(tweet.user.id,'notification:new',notification)
 
       return NextResponse.json(
         { like: updatedTweet.likeCount, isLiked: true },

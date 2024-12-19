@@ -36,6 +36,13 @@ export async function POST(req) {
       }
     });
 
+    prisma.notification.create({
+      data: {
+        userId: followerId,
+        
+      }
+    })
+
     return NextResponse.json(
       { message: "user Added Too Follow List", follow: true, data: newFollow },
       { status: 200 }

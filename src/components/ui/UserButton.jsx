@@ -40,8 +40,8 @@ const UserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="select-none outline-none capitalize">
-        <button className="w-full bg-none hover:bg-none rounded-full flex items-center justify-start px-1 hover:bg-popover">
-          <div className="flex gap-3 items-center">
+        <button className=" bg-none rounded-full flex items-center justify-start px-1 hover:bg-popover w-fit">
+          <div className="flex gap-3 items-center w-fit">
             <UserIcon />
             <div className="text-start flex flex-col max-md:hidden">
               <h1 className="text-foreground text-sm">

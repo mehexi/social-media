@@ -8,23 +8,24 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  clerkUserId      String         @unique
-  userName         String         @unique
-  profilePicture   String?
-  bio              String?
-  createdAt        DateTime       @default(now())
-  tweets           Tweet[]        @relation()
-  pinnedTweetsID   PinnedTweets[] @relation()
-  tweetIds         String[]       @default([])
-  bookmarks        Bookmark[]     @relation("UserBookmarks")
-  notifications    Notification[]
-  messagesSent     Message[]      @relation("SentMessages")
-  likes            String[]       @default([])
-  messagesReceived Message[]      @relation("ReceivedMessages")
+  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUserId        String         @unique
+  userName           String         @unique
+  profilePicture     String?
+  bio                String?
+  createdAt          DateTime       @default(now())
+  tweets             Tweet[]        @relation()
+  pinnedTweetsID     PinnedTweets[] @relation()
+  tweetIds           String[]       @default([])
+  bookmarks          Bookmark[]     @relation("UserBookmarks")
+  notifications      Notification[] @relation("UserNotifications") // Notifications received
+  triggeredNotifications Notification[] @relation("ActorNotifications") // Notifications triggered
+  messagesSent       Message[]      @relation("SentMessages")
+  likes              String[]       @default([])
+  messagesReceived   Message[]      @relation("ReceivedMessages")
   
-  following Follow[] @relation("UserFollowing")
-  followers Follow[] @relation("UserFollowers")
+  following          Follow[] @relation("UserFollowing")
+  followers          Follow[] @relation("UserFollowers")
 }
 
 model Follow {
@@ -51,16 +52,19 @@ model Tweet {
   bookmarks     Bookmark[]
   likes         String[]   @default([])
   likeCount     Int        @default(0)
-  hasImage      Boolean   @default(false)
+  hasImage      Boolean    @default(false)
 }
 
 model Notification {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  content   String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  type        String
+  content     String
+  read        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  actorId     String?   @db.ObjectId
+  actor       User?     @relation("ActorNotifications", fields: [actorId], references: [id])
+  userId      String    @db.ObjectId
+  user        User      @relation("UserNotifications", fields: [userId], references: [id])
 }
 
 model Bookmark {
@@ -73,10 +77,10 @@ model Bookmark {
 
 model PinnedTweets {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String  @db.ObjectId
-  user      User  @relation(fields: [userId] , references: [id])
-  tweetId   String  @db.ObjectId
-  tweet     Tweet  @relation(fields: [tweetId] , references: [id])
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  tweetId   String   @db.ObjectId
+  tweet     Tweet    @relation(fields: [tweetId], references: [id])
   createdAt DateTime @default(now())
 }
 

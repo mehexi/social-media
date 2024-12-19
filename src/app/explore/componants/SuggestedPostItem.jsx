@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 const SuggestedPostItem = ({ tweet }) => {
-  console.log(tweet);
+
   return (
     <CarouselItem className="basis-72  border px-2 py-3 flex flex-col gap-3 rounded-xl ml-2">
       <div className="flex items-center gap-3">

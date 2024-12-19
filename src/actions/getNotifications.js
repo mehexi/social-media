@@ -8,8 +8,21 @@ export const getNotifications = async () => {
     const notifications = await prisma.notification.findMany({
       where: {
         userId: currentUser.id
+      },
+      include: {
+        actor: true
       }
     });
+
+    await prisma.notification.updateMany({
+      where: {
+        userId: currentUser.id,
+        read: false
+      },
+      data: {
+        read: true
+      }
+    })
 
     return notifications;
   } catch (error) {

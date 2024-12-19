@@ -8,8 +8,6 @@ const page = async () => {
   const notifications = await getNotifications();
   const currentUser = await getUserData()
 
-  console.log(notifications,currentUser)
-
   return (
     <section className="flex flex-col h-screen overflow-x-auto">
       <CardHeader>

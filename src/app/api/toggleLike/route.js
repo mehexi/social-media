@@ -17,31 +17,48 @@ export async function POST(req) {
     const isAlreadyLiked = await prisma.like.findFirst({
       where: {
         userId: user.id,
-        tweetId: tweet.id,
-      },
+        tweetId: tweet.id
+      }
     });
+
+    const hasNotification = await prisma.notification.findFirst({
+      where: {
+        userId: tweet.user.id,
+        type: "Like",
+        actorId: user.id
+      }
+    });
+
+    console.log(hasNotification)
 
     if (isAlreadyLiked) {
       //removed liked tweet id from user
       await prisma.user.update({
         where: { id: user.id },
         data: {
-          likes: user.likes.filter((like) => like !== tweetId),
-        },
+          likes: user.likes.filter((like) => like !== tweetId)
+        }
       });
       //removed liked user id from tweet
       const updatedTweet = await prisma.tweet.update({
         where: { id: tweet.id },
         data: {
           likes: tweet.likes.filter((like) => like !== user.id),
-          likeCount: { set: tweet.likeCount > 0 ? tweet.likeCount - 1 : 0, },
-        },
+          likeCount: { set: tweet.likeCount > 0 ? tweet.likeCount - 1 : 0 }
+        }
       });
 
       //removed like
       await prisma.like.delete({
-        where: { id: isAlreadyLiked.id },
+        where: { id: isAlreadyLiked.id }
       });
+
+      //remove notification
+      if (hasNotification) {
+        await prisma.notification.delete({
+          where: { id: hasNotification.id }
+        });
+      }
 
       return NextResponse.json(
         { like: updatedTweet.likeCount, isLiked: false }, // Combine response
@@ -51,34 +68,41 @@ export async function POST(req) {
       await prisma.user.update({
         where: { id: user.id },
         data: {
-          likes: [...user.likes, tweetId],
-        },
+          likes: [...user.likes, tweetId]
+        }
       });
       const updatedTweet = await prisma.tweet.update({
         where: { id: tweet.id },
         data: {
           likes: [...tweet.likes, user.id],
-          likeCount: { increment: 1 },
-        },
+          likeCount: { increment: 1 }
+        }
       });
 
       await prisma.like.create({
         data: {
           userId: user.id,
-          tweetId: tweet.id,
-        },
+          tweetId: tweet.id
+        }
       });
 
       const notification = await prisma.notification.create({
         data: {
           userId: tweet.user.id,
-          type: 'Like',
+          type: "Like",
           actorId: user.id,
           content: `${user.userName} Has Liked Your Tweet`
+        },
+        include: {
+          actor: true
         }
-      })
+      });
 
-      await pusherServer.trigger(tweet.user.id,'notification:new',notification)
+      await pusherServer.trigger(
+        tweet.user.id,
+        "notification:new",
+        notification
+      );
 
       return NextResponse.json(
         { like: updatedTweet.likeCount, isLiked: true },

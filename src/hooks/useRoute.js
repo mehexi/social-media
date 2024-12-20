@@ -12,7 +12,7 @@ import { useMemo } from "react";
 
 const useRoute = () => {
   const pathName = usePathname();
-  const { notifications: liveNotifications } = useNotifications(); // Correctly destructured
+  const { notifications: liveNotifications } = useNotifications(); 
 
   const routes = useMemo(
     () => [
@@ -32,7 +32,7 @@ const useRoute = () => {
         label: "Notifications",
         href: "/notification",
         icon: Bell,
-        new: liveNotifications.length > 0, // Fixed reference
+        new: liveNotifications.length > 0,
         active: pathName === "/notification"
       },
       {

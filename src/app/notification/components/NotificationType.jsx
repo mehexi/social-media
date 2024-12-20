@@ -8,20 +8,20 @@ const NotificationType = ({ type }) => {
     switch (notiType) {
       case "like":
         return (
-          <div className="absolute w-8 h-8 bg-red-600 bottom-0 right-0 rounded-full border-2 border-white flex items-center justify-center">
-            <ThumbsUp size={18} fill="white" />
+          <div className="absolute w-6 h-6 bg-red-600 -bottom-2 -right-2 rounded-full border-2 border-white flex items-center justify-center">
+            <ThumbsUp size={12} fill="white" />
           </div>
         );
       case "retweet":
         return (
-          <div className="absolute w-8 h-8 bg-green-600 bottom-0 right-0 rounded-full border-2 border-white flex items-center justify-center">
-            <MessageCircle size={18} fill="white" />
+          <div className="absolute w-6 h-6 bg-green-600 -bottom-2 -right-2 rounded-full border-2 border-white flex items-center justify-center">
+            <MessageCircle size={12} fill="white" />
           </div>
         );
       case "follow":
         return (
-          <div className="absolute w-8 h-8 bg-blue-600 bottom-0 right-0 rounded-full border-2 border-white flex items-center justify-center">
-            <UserRound fill="white" size={18} />
+          <div className="absolute w-6 h-6 bg-blue-600 -bottom-2 -right-2 rounded-full border-2 border-white flex items-center justify-center">
+            <UserRound fill="white" size={12} />
           </div>
         );
       default:

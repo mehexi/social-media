@@ -16,6 +16,16 @@ export async function POST(req) {
       }
     });
 
+    const exixtingNotification = await prisma.notification.findFirst({
+      where: {
+        userId: followerId,
+        actorId: user.id,
+        type: "follow"
+      }
+    })
+
+    console.log(exixtingNotification)
+
     //unfollow
     if (existingFollow) {
       await prisma.follow.delete({
@@ -23,6 +33,14 @@ export async function POST(req) {
           id: existingFollow.id
         }
       });
+
+      if (exixtingNotification) {
+        await prisma.notification.delete({
+          where: {
+            id: exixtingNotification.id
+          }
+        })
+      }
 
       return NextResponse.json(
         { message: "user Unfollowed", follow: false },

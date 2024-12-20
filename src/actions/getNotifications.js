@@ -11,6 +11,9 @@ export const getNotifications = async () => {
       },
       include: {
         actor: true
+      },
+      orderBy: {
+        createdAt: "desc"
       }
     });
 

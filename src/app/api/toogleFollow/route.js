@@ -1,5 +1,6 @@
 import { getUserData } from "@/actions/getUserData";
 import prisma from "@/lib/prismaDb";
+import { pusherServer } from "@/lib/pusher";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -36,12 +37,19 @@ export async function POST(req) {
       }
     });
 
-    prisma.notification.create({
+    const notification = await  prisma.notification.create({
       data: {
         userId: followerId,
-        
+        type: 'follow',
+        actorId: user.id,
+        content: `${user.userName} Started Too following you!`
+      },
+      include: {
+        actor: true
       }
     })
+
+    await pusherServer.trigger(followerId,"notification:new",notification)
 
     return NextResponse.json(
       { message: "user Added Too Follow List", follow: true, data: newFollow },

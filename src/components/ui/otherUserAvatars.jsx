@@ -8,10 +8,10 @@ import { Calendar } from "lucide-react";
 import FormattedDate from "./FormatedTime";
 import { Skeleton } from "./skeleton";
 
-const OtherUserAvatars = ({ id }) => {
+const OtherUserAvatars = ({ id, width = 8, height = 8 }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [followState,setIsFollowing] = useState(null)
+  const [followState, setIsFollowing] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -19,7 +19,7 @@ const OtherUserAvatars = ({ id }) => {
       try {
         const response = await axios.get(`/api/clerkUser?userId=${id}`);
         setData(response.data);
-        setIsFollowing(response.data.isFollowing)
+        setIsFollowing(response.data.isFollowing);
       } catch (error) {
         console.error("Error fetching user:", error);
       } finally {
@@ -36,24 +36,24 @@ const OtherUserAvatars = ({ id }) => {
     const handleFollowEvent = (e) => {
       if (e.detail.followId === data?.userFromDB?.id) {
         setIsFollowing(e.detail.isFollowing);
-      } 
+      }
     };
-  
-    window.addEventListener('follow', handleFollowEvent);
-  
+
+    window.addEventListener("follow", handleFollowEvent);
+
     return () => {
-      window.removeEventListener('follow', handleFollowEvent);
+      window.removeEventListener("follow", handleFollowEvent);
     };
   }, [data?.userFromDB?.id]);
 
   if (loading)
-    return <Skeleton className="w-8 h-8 rounded-full flex-shrink-0" />;
+    return <Skeleton className={`w-${width} h-${height} rounded-full flex-shrink-0`} />;
 
   const { user, userFromDB } = data;
 
   return (
     <HoverCard>
-      <HoverCardTrigger className="w-8 h-8">
+      <HoverCardTrigger className={`w-${width} h-${height}`}>
         <Image
           alt={
             user?.firstName
@@ -63,7 +63,7 @@ const OtherUserAvatars = ({ id }) => {
           width={1024}
           height={1024}
           src={user?.imageUrl || "/user.png"}
-          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+          className={`w-${width} h-${height} rounded-full object-cover flex-shrink-0`}
         />
       </HoverCardTrigger>
       <HoverCardContent className="shadow-sm shadow-primary flex flex-col gap-3">
@@ -77,7 +77,7 @@ const OtherUserAvatars = ({ id }) => {
             width={1024}
             height={1024}
             src={user?.imageUrl || "/user.png"}
-            className="w-14 h-14 rounded-full object-cover"
+            className={`w-${Math.ceil(width * 1.75)} h-${Math.ceil(height * 1.75)} rounded-full object-cover`}
           />
           <FollowBtn followeeUser={userFromDB} followStatus={followState} user={user} />
         </div>

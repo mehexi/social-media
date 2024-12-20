@@ -1,8 +1,23 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { pusherClient } from '@/lib/pusher';
 
-export function useNotifications(userId) {
+export function useNotifications() {
   const [notifications, setNotifications] = useState([]);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/api/getCurrentUser');
+        setUserId(response.data.id);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     if (!userId) return;
@@ -21,5 +36,9 @@ export function useNotifications(userId) {
     };
   }, [userId]);
 
-  return notifications;
+  const clearNotifications = () => {
+    setNotifications([]);
+  };
+
+  return { notifications, clearNotifications };
 }

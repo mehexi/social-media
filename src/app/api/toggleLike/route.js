@@ -91,7 +91,7 @@ export async function POST(req) {
           userId: tweet.user.id,
           type: "Like",
           actorId: user.id,
-          content: `${user.userName} Has Liked Your Tweet`
+          content: `${user.userName} gave your tweet a thumbs up! 👍`
         },
         include: {
           actor: true

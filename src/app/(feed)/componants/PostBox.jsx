@@ -10,7 +10,7 @@ import AavatarButton from "@/components/ui/avatarButton";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Progress from "@/components/ui/Progress";
+import Progress from "@/components/ui/TweetProgress";
 import { Separator } from "@/components/ui/separator";
 
 // Fetch posts mutation
@@ -21,8 +21,8 @@ const addPost = async ({ content, images }) => {
 
   const { data } = await axios.post("/api/post", formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
-    },
+      "Content-Type": "multipart/form-data"
+    }
   });
   return data;
 };
@@ -57,7 +57,7 @@ const PostBox = () => {
     onError: (error) => {
       console.log("Error posting tweet:", error);
       setIsPosting(false);
-    },
+    }
   });
 
   const handlePost = async () => {
@@ -92,19 +92,19 @@ const PostBox = () => {
     <>
       <div className=" rounded-lg px-6 py-3 flex gap-3">
         <div className="h-12 w-12 flex-shrink-0">
-        <AavatarButton size={12}/>
+          <AavatarButton size={12} />
         </div>
         <div className="w-full flex flex-col gap-3">
           <textarea
-              className="focus:outline-none w-full rounded-lg resize-none bg-transparent"
-              rows={2}
-              draggable={false}
-              placeholder="What's Cooking?"
-              value={postText}
-              onChange={handleChange}
-              disabled={isPosting}
+            className="focus:outline-none w-full rounded-lg resize-none bg-transparent"
+            rows={2}
+            draggable={false}
+            placeholder="What's Cooking?"
+            value={postText}
+            onChange={handleChange}
+            disabled={isPosting}
           />
-          <Separator/>
+          <Separator />
           <div
             className={`grid ${
               selectedImages.length > 1 ? "grid-cols-2" : "grid-cols-1"

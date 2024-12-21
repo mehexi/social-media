@@ -60,9 +60,9 @@ const OtherUserAvatars = ({ id, width = 8, height = 8 }) => {
               ? `${user.firstName}'s Avatar`
               : "Default User Avatar"
           }
-          width={1024}
-          height={1024}
-          src={user?.imageUrl || "/user.png"}
+          width={128}
+          height={128}
+          src={`${user?.imageUrl}?w=12&h=12&fit=crop`}
           className={`w-${width} h-${height} rounded-full object-cover flex-shrink-0`}
         />
       </HoverCardTrigger>

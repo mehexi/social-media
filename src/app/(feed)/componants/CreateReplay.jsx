@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import FormattedContent from "@/components/ui/FormatContent";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
-import Progress from "@/components/ui/Progress";
+import Progress from "@/components/ui/TweetProgress";
 import { Separator } from "@/components/ui/separator";
 import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

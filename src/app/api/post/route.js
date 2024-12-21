@@ -77,6 +77,13 @@ export async function DELETE(req) {
   try {
     const { searchParams } = new URL(req.url)
     const tweetId = searchParams.get('id')
+
+    const deleteAllChildren =  await prisma.tweet.deleteMany({
+      where: {
+        parentTweetId: tweetId,
+      },
+    });
+
     const tweet = await prisma.tweet.delete({
       where: { id: tweetId },
     })

@@ -1,49 +1,20 @@
-import React from "react";
+"use client"
 
-const Progress = ({ progress = 0, limit = 100, size = 100, strokeWidth = 10 }) => {
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
+import * as React from "react"
+import * as ProgressPrimitive from "@radix-ui/react-progress"
 
-  // Calculate the progress percentage
-  const progressPercentage = Math.min((progress / limit) * 100, 100);
-  const offset = circumference - (progressPercentage / 100) * circumference;
+import { cn } from "@/lib/utils"
 
-  return (
-    <div
-      className="relative flex items-center justify-center"
-      style={{ width: size, height: size }}
-    >
-      {/* Background Circle */}
-      <svg
-        className="absolute transform rotate-[-90deg]"
-        width={size}
-        height={size}
-      >
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          strokeWidth={strokeWidth}
-          className="text-muted"
-          stroke="currentColor"
-          fill="none"
-        />
-        {/* Progress Circle */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          strokeWidth={strokeWidth}
-          className="text-primary"
-          stroke="currentColor"
-          fill="none"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          strokeLinecap="round"
-        />
-      </svg>
-    </div>
-  );
-};
+const Progress = React.forwardRef(({ className, value, ...props }, ref) => (
+  <ProgressPrimitive.Root
+    ref={ref}
+    className={cn("relative h-4 w-full overflow-hidden rounded-full bg-secondary", className)}
+    {...props}>
+    <ProgressPrimitive.Indicator
+      className="h-full w-full flex-1 bg-primary transition-all"
+      style={{ transform: `translateX(-${100 - (value || 0)}%)` }} />
+  </ProgressPrimitive.Root>
+))
+Progress.displayName = ProgressPrimitive.Root.displayName
 
-export default Progress;
+export { Progress }

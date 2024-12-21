@@ -15,7 +15,7 @@ const SuggestedPosts = ({ tweets }) => {
   const query = searchParam.get("q");
 
   return (
-    <Card className="w-full bg-background border-none">
+    <Card className="border-none w-full bg-background">
       <CardHeader>
         <div className="text-secondary-foreground/50">
           {!query ? (
@@ -35,8 +35,6 @@ const SuggestedPosts = ({ tweets }) => {
                 <SuggestedPostItem key={tweet.id} tweet={tweet} />
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
           </Carousel>
         ) : (
           <div className="flex flex-col">

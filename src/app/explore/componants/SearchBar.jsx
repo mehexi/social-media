@@ -57,7 +57,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="w-full bg-card relative">
+    <div className="w-full bg-card relative ">
       <div className="flex mx-3 my-3 bg-background py-2 px-3 rounded-full border">
         <Search
           size={24}

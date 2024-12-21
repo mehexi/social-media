@@ -15,6 +15,7 @@ import { useUser } from "@clerk/nextjs";
 import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
 
 const SinglePost = ({ post, onReplySubmit }) => {
+  console.log(post)
   const { user } = useUser();
 
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
@@ -195,7 +196,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
           </Button>
           <Separator orientation="vertical" />
 
-          <CreateReplay currentPost={post} onReplySubmit={onReplySubmit} />
+          <CreateReplay currentPost={post} onReplySubmit={onReplySubmit} replyCount={post.replies.length} />
 
           <Separator orientation="vertical" />
           {isAuthor ? (

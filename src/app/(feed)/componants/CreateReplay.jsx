@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import FormattedContent from "@/components/ui/FormatContent";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
@@ -23,7 +23,7 @@ const retweetPost = async ({ content, parentTweetId }) => {
   return res.data;
 };
 
-const CreateReplay = ({ currentPost, onReplySubmit }) => {
+const CreateReplay = ({ currentPost, onReplySubmit, replyCount }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [content, setContent] = useState(""); // Added state for textarea
   const queryClient = useQueryClient();
@@ -38,7 +38,7 @@ const CreateReplay = ({ currentPost, onReplySubmit }) => {
     },
     onError: (error) => {
       console.error(error);
-    },
+    }
   });
 
   const handleSubmit = (e) => {
@@ -49,14 +49,14 @@ const CreateReplay = ({ currentPost, onReplySubmit }) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <ToolTipWrapper title={'Reply'}>
-      <DialogTrigger asChild>
+      <ToolTipWrapper title={"Reply"}>
+        <DialogTrigger asChild>
           <Button className="text-xs w-full" variant="ghost">
-            <Reply />
+            <Reply /> {replyCount > 0 && `${replyCount}`}
           </Button>
-      </DialogTrigger>
-        </ToolTipWrapper>
-      <DialogContent className='max-w-xl'>
+        </DialogTrigger>
+      </ToolTipWrapper>
+      <DialogContent className="max-w-xl">
         <DialogHeader>
           <DialogTitle />
         </DialogHeader>

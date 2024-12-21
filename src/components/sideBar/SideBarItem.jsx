@@ -14,7 +14,7 @@ const SideBarItem = ({ data }) => {
   return (
     <Button
       onClick={goTo}
-      className="w-fit rounded-full"
+      className="w-fit rounded-full max-sm:rounded"
       variant="ghost"
     >
       <div className="relative">

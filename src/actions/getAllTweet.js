@@ -18,7 +18,8 @@ export const getAllTweet = async (query) => {
             include: {
               user: true
             }
-          }
+          },
+          replies: true
         }
       });
 

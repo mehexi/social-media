@@ -14,20 +14,18 @@ const SuggestedPosts = ({ tweets }) => {
   const searchParam = useSearchParams();
   const query = searchParam.get("q");
 
-  console.log(tweets);
-
   return (
     <Card className="w-full bg-background border-none">
       <CardHeader>
-        <h1 className="text-secondary-foreground/50">
+        <div className="text-secondary-foreground/50">
           {!query ? (
-            "Suggested Post Only for you"
+            <h1>Suggested Post Only for you</h1>
           ) : (
             <h1>
               Showing Result For: <span className="text-primary">{query}</span>
             </h1>
           )}
-        </h1>
+        </div>
       </CardHeader>
       <div>
         {!query ? (

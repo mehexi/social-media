@@ -12,6 +12,8 @@ const page = async ({searchParams}) => {
   const tweets = await getAllTweet(query)
   const users = await getAllUser()
 
+  console.log(tweets)
+
   return (
     <section className="flex flex-col items-center h-screen overflow-x-auto">
       <SearchBar />

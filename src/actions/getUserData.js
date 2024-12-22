@@ -17,7 +17,20 @@ export const getUserData = async () => {
       },
       include: {
         followers: true,
-        following: true
+        following: true,
+        tweets: true,
+        pinnedTweetsID: {
+          include: {
+            tweet: {
+              include: {
+                user: true,
+                replies: true,
+                pinnedTweet: true
+              }
+            }
+          }
+        },
+        
       }
     });
 

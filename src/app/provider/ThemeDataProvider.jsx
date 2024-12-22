@@ -36,7 +36,7 @@ const ThemeDataProvider = ({ children }) => {
   }, [themeColor, theme, isMounted]);
 
   // Prevent rendering until fully mounted
-  if (!isMounted) return null;
+  if (!isMounted) return null
 
   return (
     <NextThemesProvider>

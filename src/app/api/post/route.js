@@ -84,6 +84,8 @@ export async function DELETE(req) {
       },
     });
 
+    console.log('deleted children',deleteAllChildren)
+
     const tweet = await prisma.tweet.delete({
       where: { id: tweetId },
     })

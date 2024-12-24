@@ -11,7 +11,7 @@ export const fetchPosts = async ({ pageParam = 1,isFollower=false }) => {
   const res = await axios.get(`/api/getPost`, {
     params: {
       page: pageParam,
-      limit: 2,
+      limit: 5,
       isFollower
     },
   });

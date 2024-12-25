@@ -7,10 +7,10 @@ const ProfileImage = ({ userData }) => {
     const { clerkUserId } = userData;
 
   return (
-    <div className="w-full mt-6">
+    <div className="w-full">
       <div className="h-52 bg-secondary w-full"></div>
       <div className="-mt-14  mx-6 flex items-end justify-between">
-        <div className=" border-[6px] w-28 h-28 pointer-events-none rounded-full border-background">
+        <div className="  w-28 h-28 pointer-events-none rounded-full flex-shrink-0">
         <OtherUserAvatars width={28} height={28} id={clerkUserId} />
       </div>
         <Button className='rounded-full' variant='secondary'><Pen/> Edit Profile</Button>

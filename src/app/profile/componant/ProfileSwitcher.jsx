@@ -20,7 +20,7 @@ const ProfileSwitcher = () => {
       active: param === "replies"
     },
     {
-      label: "Pinned Tweets",
+      label: "Highlights",
       query: "pin",
       active: param === "pin"
     },

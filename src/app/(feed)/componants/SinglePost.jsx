@@ -13,9 +13,9 @@ import { bookMarkPost } from "@/actions/postActions";
 import { toast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/nextjs";
 import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
+import Link from "next/link";
 
 const SinglePost = ({ post, onReplySubmit }) => {
-  console.log(post)
   const { user } = useUser();
 
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
@@ -77,7 +77,9 @@ const SinglePost = ({ post, onReplySubmit }) => {
             <h1 className="group">
               @
               <span className="cursor-pointer group-hover:underline">
-                {post.user.userName}
+                <Link href={`/profile/${post.user.userName}`}>
+                  {post.user.userName}
+                </Link>
               </span>
             </h1>
             {post.updatedAt && post.updatedAt !== post.createdAt ? (
@@ -110,56 +112,56 @@ const SinglePost = ({ post, onReplySubmit }) => {
         </div>
         {post.parentTweet ? (
           <div className="flex py-3 gap-3">
-            <>
-              <div className="">
-                <OtherUserAvatars id={post.parentTweet.userId} />
-              </div>
-              <div className="text-nowrap w-full flex flex-col">
-                <div className="flex items-center font-semibold gap-3">
-                  <h1 className="group">
-                    @
-                    <span className="cursor-pointer group-hover:underline">
+            <div className="w-8 h-8 flex-s">
+              <OtherUserAvatars id={post.parentTweet.userId} />
+            </div>
+            <div className="text-nowrap w-full flex flex-col">
+              <div className="flex items-center font-semibold gap-3">
+                <h1 className="group">
+                  @
+                  <span className="cursor-pointer group-hover:underline">
+                    <Link href={`/profile/${post.parentTweet.user.userName}`}>
                       {post.parentTweet.user.userName}
-                    </span>
-                  </h1>
-                  <span className="text-secondary-foreground/60 text-xs font-thin">
-                    <FormattedDate
-                      timestamp={post.parentTweet.createdAt}
-                      showDate={true}
-                      showTime={false}
-                    />
+                    </Link>
                   </span>
-                </div>
-                <p className="whitespace-pre-wrap break-words text-sm text-foreground/80">
-                  <FormattedContent content={post.parentTweet.content} />
-                </p>
-
-                {post.parentTweet.hasImage ? (
-                  <div
-                    className={`grid  items-center justify-center ${
-                      post.parentTweet.image.length > 1
-                        ? "grid-cols-2 "
-                        : "grid-cols-1"
-                    } gap-2 mt-2`}
-                  >
-                    {post.parentTweet.image.map((image, i) => (
-                      <Image
-                        width={1024}
-                        height={1024}
-                        key={i}
-                        alt={post.parentTweet.content}
-                        src={image}
-                        className={`col-span-1 max-h-96 rounded-lg ${
-                          post.parentTweet.image.length <= 1
-                            ? "object-contain"
-                            : "object-cover"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                ) : null}
+                </h1>
+                <span className="text-secondary-foreground/60 text-xs font-thin">
+                  <FormattedDate
+                    timestamp={post.parentTweet.createdAt}
+                    showDate={true}
+                    showTime={false}
+                  />
+                </span>
               </div>
-            </>
+              <p className="whitespace-pre-wrap break-words text-sm text-foreground/80">
+                <FormattedContent content={post.parentTweet.content} />
+              </p>
+
+              {post.parentTweet.hasImage ? (
+                <div
+                  className={`grid  items-center justify-center ${
+                    post.parentTweet.image.length > 1
+                      ? "grid-cols-2 "
+                      : "grid-cols-1"
+                  } gap-2 mt-2`}
+                >
+                  {post.parentTweet.image.map((image, i) => (
+                    <Image
+                      width={1024}
+                      height={1024}
+                      key={i}
+                      alt={post.parentTweet.content}
+                      src={image}
+                      className={`max-h-96 rounded-lg ${
+                        post.parentTweet.image.length <= 1
+                          ? "object-contain"
+                          : "object-cover"
+                      }`}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         ) : null}
         {post.hasImage ? (
@@ -183,7 +185,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
         <div className="flex pr-3 pt-3">
           <Button
             variant="ghost"
-            size='icon'
+            size="icon"
             className={`text-xs w-full ${
               isLiked ? "text-primary" : "text-secondary-foreground"
             } ${isLiking ? "pointer-events-none" : "pointer-events-auto"}`}
@@ -196,7 +198,11 @@ const SinglePost = ({ post, onReplySubmit }) => {
           </Button>
           <Separator orientation="vertical" />
 
-          <CreateReplay currentPost={post} onReplySubmit={onReplySubmit} replyCount={post.replies.length} />
+          <CreateReplay
+            currentPost={post}
+            onReplySubmit={onReplySubmit}
+            replyCount={post.replies.length}
+          />
 
           <Separator orientation="vertical" />
           {isAuthor ? (

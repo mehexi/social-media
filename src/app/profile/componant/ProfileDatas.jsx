@@ -31,8 +31,6 @@ const ProfileDatas = ({ searchParam, tweetData }) => {
     );
   }
 
-  console.log(searchParam.q === "pin");
-
   return (
     <div className="w-full mb-20  p-1">
       {searchParam.q === "pin"

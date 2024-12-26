@@ -7,8 +7,6 @@ export const getTweetByUserId = async (user, params = {}) => {
       return null;
     }
 
-    console.log("Parameters:", params);
-
     const tweetInclude = {
       parentTweet: {
         include: {

@@ -17,8 +17,10 @@ const SuggestedPosts = ({ tweets }) => {
   const query = searchParam.get("q");
   let parts = [];
 
-  if (query.startsWith("from:")) {
-    parts = query.split("from:")[1].trim().split(" ");
+  if (query) {
+    if (query.startsWith("from:")) {
+      parts = query.split("from:")[1].trim().split(" ");
+    }
   }
 
   console.log(parts);

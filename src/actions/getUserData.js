@@ -17,11 +17,19 @@ export const getUserData = async (userName) => {
             userName: userName
           },
           include: {
-            followers: true,
-            following: true,
+            followers: {
+              include: {
+                followee : true
+              }
+            },
+            following: {
+              include: {
+                follower : true
+              }
+            },
             tweets: true,
             pinnedTweetsID: {
-              include: {
+              include: {  
                 tweet: {
                   include: {
                     user: true,

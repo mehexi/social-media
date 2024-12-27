@@ -5,6 +5,31 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
+  if (query.startsWith("from:")) {
+    console.log(query)
+    const parts = query.split('from:')[1]?.trim().split(' ')
+    const userName = parts[0]
+     const user = await prisma.user.findUnique({
+      where: {
+        userName: userName
+      }
+    })
+    console.log(user)
+    const results = await prisma.tweet.findMany({
+      where: {
+        userId: user.clerkUserId,
+        content: {
+          contains: parts[1],
+          mode: 'insensitive'
+        }
+      },
+      take: 5
+    })
+
+    console.log(results)
+    return NextResponse.json({tweets: results},{status:200})
+  }
+
   if (!query) {
     return new NextResponse("No query provided", { status: 404 });
   }

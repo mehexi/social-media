@@ -33,7 +33,6 @@ const SearchBar = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(`/api/search?query=${searchQuery}`);
-
       if (data) {
         setResults({
           users: data.users || [],

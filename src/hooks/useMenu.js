@@ -153,7 +153,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
       return [
         ...commonMenus,
         {
-          label: pinned ? "Already Pinned" : "Pin to Profile",
+          label: pinned ? "Already Highlighted" : "Highlight to Profile",
           icon: !pinned ? Pin : Undo,
           onClick: () => togglePin(),
         },

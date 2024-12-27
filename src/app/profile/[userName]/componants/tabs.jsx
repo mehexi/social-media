@@ -26,7 +26,7 @@ const Tabs = () => {
       <div className="w-full flex">
         {routes.map((route, i) => (
           <Button
-            onClick={() => router.push(route.href)}
+            onClick={() => router.replace(route.href)}
             key={i}
             className={`w-full rounded-none ${
               route.active && "border-b-4  border-primary "

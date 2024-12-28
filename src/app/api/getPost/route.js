@@ -66,7 +66,7 @@ export async function GET(req) {
       ),
       isPinned: tweet.pinnedTweet.some((pin) => pin.userId === currentUser.id),
       isFollowing: tweet.user.followers.some((follower) => follower.followeeId === currentUser.id)
-    }));
+    }));  
 
     return NextResponse.json({ newTweets }, { status: 200 });
   } catch (error) {

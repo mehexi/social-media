@@ -51,7 +51,7 @@ const CreateReplay = ({ currentPost, onReplySubmit, replyCount }) => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <ToolTipWrapper title={"Reply"}>
         <DialogTrigger asChild>
-          <Button className="text-xs w-full" variant="ghost">
+          <Button className="text-xs w-full rounded-none" variant="ghost">
             <Reply /> {replyCount > 0 && `${replyCount}`}
           </Button>
         </DialogTrigger>

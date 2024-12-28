@@ -9,7 +9,7 @@ const page = async () => {
   const currentUser = await getUserData()
 
   return (
-    <section className="flex flex-col h-screen overflow-x-auto">
+    <section className="flex flex-col h-screen overflow-x-auto pb-12">
       <CardHeader>
         <CardTitle>Notifications</CardTitle>
       </CardHeader>

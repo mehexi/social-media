@@ -9,7 +9,7 @@ const page = async ({ searchParams, params }) => {
   const userData = await getUserData(userName);
   
   return (
-    <section className="flex flex-col items-center h-screen overflow-x-auto">
+    <section className="flex flex-col items-center h-screen overflow-x-auto mb-12">
       <ProfileBody user={userData} searchParam={searchParam} />
     </section>
   );

@@ -11,7 +11,7 @@ const page = async ({ params }) => {
   const following = await getFollow({ followeeId: userData.id });
  
   return (
-    <section className="flex flex-col items-center h-screen overflow-x-auto">
+    <section className="flex flex-col items-center h-screen overflow-x-auto pb-12">
       <div className="w-full space-y-3 mt-3">
         <h1 className=" px-6 max-sm:px-3">
           People Who{" "}

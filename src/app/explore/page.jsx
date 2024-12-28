@@ -13,7 +13,7 @@ const page = async ({searchParams}) => {
   const users = await getAllUser()
 
   return (
-    <section className="flex flex-col items-center h-screen overflow-x-auto">
+    <section className="flex flex-col items-center h-screen overflow-x-auto mb-12">
       <SearchBar />
       <Separator/>
       <SearchBody tweets={tweets} users={users} />

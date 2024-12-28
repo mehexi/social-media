@@ -88,7 +88,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
               <h1 className="group">
                 @
                 <span className="cursor-pointer group-hover:underline">
-                  <Link href={`/profile/${post.user.userName}`}>
+                  <Link href={`/profile/${post.user.userName}`} onClick={(e) => e.stopPropagation()}>
                     {post.user.userName}
                   </Link>
                 </span>
@@ -131,7 +131,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
                   <h1 className="group">
                     @
                     <span className="cursor-pointer group-hover:underline">
-                      <Link href={`/profile/${post.parentTweet.user.userName}`}>
+                      <Link href={`/profile/${post.parentTweet.user.userName}`} onClick={(e) => e.stopPropagation()}>
                         {post.parentTweet.user.userName}
                       </Link>
                     </span>

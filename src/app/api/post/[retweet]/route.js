@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 export async function POST(req, { params }) {
   try {
     const user = await currentUser();
-    const getCurrentUser =await getUserData()
+    const getCurrentUser = await getUserData();
     const { retweet } = await params;
     const { content } = await req.json();
     const getTweet = await getTweetById(retweet);
@@ -21,18 +21,19 @@ export async function POST(req, { params }) {
       data: {
         content,
         userId: user.id,
-        parentTweetId: retweet
+        parentTweetId: retweet,
       },
       include: {
-        parentTweet: true
-      }
-    });
-
-    console.log({
-      userId: getTweet.user.id,
-      actorId: getCurrentUser.id,
-      type: "retweet",
-      content: `${getCurrentUser.userName} had This ${newTweet.content} To Say! about your tweet`
+        user: {
+          include: {
+            followers: true,
+            following: true,
+          },
+        },
+        bookmarks: true,
+        pinnedTweet: true,
+        replies: true,
+      },
     });
 
     const notification = await prisma.notification.create({
@@ -40,11 +41,11 @@ export async function POST(req, { params }) {
         userId: getTweet.user.id,
         actorId: getCurrentUser.id,
         type: "retweet",
-        content: `${getCurrentUser.userName} had '${newTweet.content}' To Say! about your tweet`
+        content: `${getCurrentUser.userName} had '${newTweet.content}' To Say! about your tweet`,
       },
       include: {
-        actor: true
-      }
+        actor: true,
+      },
     });
 
     await pusherServer.trigger(

@@ -15,11 +15,11 @@ export const getTweetById = async (tweetId) => {
         id: tweetId,
       },
       include: {
-          user: {
-              include: {
-                  followers: true,
-                  following: true
-            }
+        user: {
+          include: {
+            followers: true,
+            following: true,
+          },
         },
         bookmarks: true,
         pinnedTweet: true,
@@ -30,7 +30,15 @@ export const getTweetById = async (tweetId) => {
         },
         replies: {
           include: {
-            user: true,
+            user: {
+              include: {
+                followers: true,
+                following: true,
+              },
+            },
+            bookmarks: true,
+            pinnedTweet: true,
+            replies: true,
           },
         },
       },

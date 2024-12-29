@@ -17,7 +17,9 @@ import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const SinglePost = ({ post, onReplySubmit }) => {
+const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
+  console.log(post);
+  // return
   const { user } = useUser();
 
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
@@ -73,7 +75,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
   return (
     <div className="w-full">
       <div
-        className="flex px-3 py-3 border-b  gap-3 hover:bg-accent/20 hover:cursor-pointer"
+        className="flex px-3 py-3 gap-3 hover:bg-accent/20 hover:cursor-pointer"
         onClick={handleClick}
       >
         <div className=" flex flex-col gap-3  items-center">
@@ -88,29 +90,36 @@ const SinglePost = ({ post, onReplySubmit }) => {
               <h1 className="group">
                 @
                 <span className="cursor-pointer group-hover:underline">
-                  <Link href={`/profile/${post.user.userName}`} onClick={(e) => e.stopPropagation()}>
+                  <Link
+                    href={`/profile/${post.user.userName}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {post.user.userName}
                   </Link>
                 </span>
               </h1>
-              {post.updatedAt && post.updatedAt !== post.createdAt ? (
-                <span className="text-secondary-foreground/60 text-xs font-thin flex gap-1">
-                  <h1>edited .</h1>
-                  <FormattedDate
-                    timestamp={post.updatedAt}
-                    showDate={true}
-                    showTime={true}
-                  />
-                </span>
-              ) : (
-                <span className="text-secondary-foreground/60 text-xs font-thin">
-                  <FormattedDate
-                    timestamp={post.createdAt}
-                    showDate={true}
-                    showTime={false}
-                  />
-                </span>
-              )}
+              {!mainTweet ? (
+                post.updatedAt &&
+                new Date(post.updatedAt).getTime() !==
+                  new Date(post.createdAt).getTime() ? (
+                  <span className="text-secondary-foreground/60 text-xs font-thin flex gap-1">
+                    <h1>edited .</h1>
+                    <FormattedDate
+                      timestamp={post.updatedAt}
+                      showDate={true}
+                      showTime={true}
+                    />
+                  </span>
+                ) : (
+                  <span className="text-secondary-foreground/60 text-xs font-thin">
+                    <FormattedDate
+                      timestamp={post.createdAt}
+                      showDate={true}
+                      showTime={false}
+                    />
+                  </span>
+                )
+              ) : null}
             </div>
             <div className="ml-auto">
               <SubMenu post={post} />
@@ -121,7 +130,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
               <FormattedContent content={post.content} />
             </p>
           </div>
-          {post.parentTweetId !== null && (
+          {post.parentTweet && (
             <div className="flex py-3 gap-3">
               <div className="w-8 h-8 flex-s">
                 <OtherUserAvatars id={post.parentTweet.userId} />
@@ -131,7 +140,10 @@ const SinglePost = ({ post, onReplySubmit }) => {
                   <h1 className="group">
                     @
                     <span className="cursor-pointer group-hover:underline">
-                      <Link href={`/profile/${post.parentTweet.user.userName}`} onClick={(e) => e.stopPropagation()}>
+                      <Link
+                        href={`/profile/${post.parentTweet.user.userName}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {post.parentTweet.user.userName}
                       </Link>
                     </span>
@@ -194,6 +206,33 @@ const SinglePost = ({ post, onReplySubmit }) => {
           ) : null}
         </div>
       </div>
+
+      {mainTweet ? (
+        <div className="px-3  py-1">
+          {post.updatedAt &&
+          new Date(post.updatedAt).getTime() !==
+            new Date(post.createdAt).getTime() ? (
+            <span className="text-secondary-foreground/60 text-xs font-thin flex gap-1">
+              <h1>edited .</h1>
+              <FormattedDate
+                timestamp={post.updatedAt}
+                showDate={true}
+                showTime={true}
+              />
+            </span>
+          ) : (
+            <span className="text-secondary-foreground/60 text-xs font-thin">
+              <span>Created At : </span>
+              <FormattedDate
+                timestamp={post.createdAt}
+                showDate={true}
+                showTime={true}
+              />
+            </span>
+          )}
+          <Separator className='mt-3'/>
+        </div>
+      ) : null}
       <div className="flex">
         <Button
           variant="ghost"
@@ -236,7 +275,7 @@ const SinglePost = ({ post, onReplySubmit }) => {
           </ToolTipWrapper>
         )}
       </div>
-      <Separator/>
+      <Separator />
     </div>
   );
 };

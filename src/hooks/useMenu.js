@@ -57,7 +57,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
 
   // Copy tweet link
   const tweetLink = () => {
-    const link = `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`;
+    const link = `https://xwitter.vercel.app/profile/${tweet.user.userName}/${tweet.id}`;
     navigator.permissions
       .query({ name: "clipboard-write" })
       .then((result) => {
@@ -98,7 +98,7 @@ const useMenu = (tweet, isAuthor, setOpen) => {
       navigator.share({
         title: `${tweet.user.userName}`,
         text: `${tweet.content}`,
-        url: `https://xwitter.vercel.app/${tweet.user.userName}/status/${tweet.id}`,
+        url: `https://xwitter.vercel.app/profile/${tweet.user.userName}/${tweet.id}`,
       })
         .then(() => console.log("Successfully shared"))
         .catch((error) => console.error("Error sharing", error));

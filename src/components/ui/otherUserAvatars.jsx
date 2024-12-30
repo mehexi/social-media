@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -48,7 +48,11 @@ const OtherUserAvatars = ({ id, width = 8, height = 8 }) => {
   }, [data?.userFromDB?.id]);
 
   if (loading)
-    return <Skeleton className={`w-${width} h-${height} rounded-full flex-shrink-0`} />;
+    return (
+      <Skeleton
+        className={`w-${width} h-${height} rounded-full flex-shrink-0`}
+      />
+    );
 
   const { user, userFromDB } = data;
 
@@ -78,9 +82,15 @@ const OtherUserAvatars = ({ id, width = 8, height = 8 }) => {
             width={1024}
             height={1024}
             src={user?.imageUrl || "/user.png"}
-            className={`w-${Math.ceil(width * 1.75)} h-${Math.ceil(height * 1.75)} rounded-full object-cover`}
+            className={`w-${Math.ceil(width * 1.75)} h-${Math.ceil(
+              height * 1.75
+            )} rounded-full object-cover`}
           />
-          <FollowBtn followeeUser={userFromDB} followStatus={followState} user={user} />
+          <FollowBtn
+            followeeUser={userFromDB}
+            followStatus={followState}
+            user={user}
+          />
         </div>
         <Separator />
         <div className="flex flex-col ">
@@ -90,11 +100,8 @@ const OtherUserAvatars = ({ id, width = 8, height = 8 }) => {
               : user?.username}
           </h1>
           <p className="text-primary text-sm">@{user?.username}</p>
-          <p className="text-secondary-foreground/20 truncate">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
-            consectetur fuga vitae similique earum saepe aspernatur dicta in
-            voluptate nesciunt, ullam amet, ratione quidem? Voluptates odit
-            repudiandae laudantium totam quasi?
+          <p className="text-secondary-foreground/20 w-56 text-wrap">
+            {data.userFromDB.bio}
           </p>
         </div>
         <Separator />

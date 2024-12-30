@@ -18,8 +18,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
-  console.log(post);
-  // return
   const { user } = useUser();
 
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
@@ -132,7 +130,7 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
           </div>
           {post.parentTweet && (
             <div className="flex py-3 gap-3">
-              <div className="w-8 h-8 flex-s">
+              <div className="w-8 h-8">
                 <OtherUserAvatars id={post.parentTweet.userId} />
               </div>
               <div className="text-nowrap w-full flex flex-col">

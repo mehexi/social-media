@@ -29,7 +29,7 @@ const NotificationBody = ({ notifications: initialNotifications }) => {
   }
 
   return (
-    <div className="flex flex-col gap-2 mt-3">
+    <div className="flex flex-col gap-2 mt-3 mb-12">
       {liveNotifications.length > 0 && (
         <div className="flex flex-col gap-3">
           <h1>New Notifications</h1>

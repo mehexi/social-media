@@ -9,7 +9,7 @@ const page = async ({ searchParams }) => {
   const allBookMarks = await getAllBookmark(query);
 
   return (
-    <section className="flex flex-col h-screen overflow-x-auto mb-12">
+    <section className="flex flex-col h-screen overflow-x-auto">
       <CardHeader>
         <CardTitle>Bookmarks</CardTitle>
       </CardHeader>

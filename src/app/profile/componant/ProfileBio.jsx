@@ -9,12 +9,10 @@ const ProfileBio = ({ userData }) => {
   return (
     <div className="w-full items-start px-6 py-3 space-y-3">
       <div>
-        <h1 className="text-2xl capitalize">@{userName}</h1>
+        <h1 className="capitalize text-secondary-foreground/30">@{userName}</h1>
+        <h1 className="capitalize text-xl">{userData.firstName} {userData.lastName}</h1>
         <p>
-          {bio} Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Adipisci sapiente illo, voluptate eos dolores, vero, hic ex atque odio
-          perspiciatis asperiores facilis voluptatum distinctio. Nihil, rem
-          maxime. In, placeat blanditiis.
+          {bio}
         </p>
       </div>
       <div>

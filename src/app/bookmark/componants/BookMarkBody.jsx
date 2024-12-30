@@ -5,7 +5,7 @@ import Bookmarks from "./Bookmarks";
 const BookMarkBody = ({ allBookMarks }) => {
   console.log(allBookMarks);
   return (
-    <div>
+    <div className=" mb-12">
       <BookmarkSearch />
       <Bookmarks allBookMarks={allBookMarks} />
     </div>

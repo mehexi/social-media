@@ -7,7 +7,7 @@ export default async function Home() {
     <section className="flex flex-col items-center h-screen overflow-x-auto p-0">
       <TabSwitcher />
       <Separator />
-      <div className="mb-12">
+      <div className="mb-12 w-full">
         <MediaBody />
       </div>
     </section>

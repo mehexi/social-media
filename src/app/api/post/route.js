@@ -75,26 +75,43 @@ export async function POST(req) {
 
 export async function DELETE(req) {
   try {
-    const { searchParams } = new URL(req.url)
-    const tweetId = searchParams.get('id')
+    const { searchParams } = new URL(req.url);
+    const tweetId = searchParams.get('id');
 
-    const deleteAllChildren =  await prisma.tweet.deleteMany({
-      where: {
-        parentTweetId: tweetId,
-      },
+    if (!tweetId) {
+      return new NextResponse('Tweet ID is required', { status: 400 });
+    }
+
+    const deletedTweetData = await prisma.$transaction(async (prisma) => {
+      
+      await prisma.tweet.deleteMany({
+        where: { parentTweetId: tweetId },
+      });
+      
+      await prisma.bookmark.deleteMany({
+        where: { tweetId },
+      });
+
+      await prisma.like.deleteMany({
+        where: { tweetId },
+      });
+
+      await prisma.notification.deleteMany({
+        where: { content: { contains: tweetId } },
+      });
+
+
+      const deletedTweet = await prisma.tweet.delete({
+        where: { id: tweetId },
+      });
+
+      return deletedTweet;
     });
 
-    console.log('deleted children',deleteAllChildren)
-
-    const tweet = await prisma.tweet.delete({
-      where: { id: tweetId },
-    })
-
-    return NextResponse.json(tweet,{status:200})
-  }
-  catch (error) {
+    return NextResponse.json(deletedTweetData, { status: 200 });
+  } catch (error) {
     console.error("Error while deleting tweet:", error);
-    return new NextResponse('internal server error' ,{status:500})
+    return new NextResponse('Internal server error', { status: 500 });
   }
 }
 

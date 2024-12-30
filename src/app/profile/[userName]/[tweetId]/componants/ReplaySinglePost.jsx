@@ -4,20 +4,27 @@ import { Input } from "@/components/ui/input";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
-import React from "react";
+import { Loader2 } from "lucide-react";
+import React, { useState } from "react";
 
 const ReplaySinglePost = ({ id, setAllReplies, parentTweetId }) => {
+  const [content, setContent] = useState("");
+  const [loading,setLoading] = useState(false)
   const handleReplay = async () => {
     try {
-      const content = "try";
+      setLoading(true)
+      if (!content.trim()) return;
       const data = await axios.post(`/api/post/${parentTweetId}`, { content });
-      setAllReplies((prevReplies) => [...prevReplies,data.data])
+      setAllReplies((prevReplies) => [...prevReplies, data.data]);
       console.log(data.data);
     } catch (error) {
       console.log(error);
     }
+    finally {
+      setLoading(false)
+    }
   };
-  
+
   return (
     <>
       <div className="w-full flex p-3 gap-2">
@@ -26,10 +33,11 @@ const ReplaySinglePost = ({ id, setAllReplies, parentTweetId }) => {
         </div>
         <div className="w-full flex items-center">
           <input
+            onChange={(e) => setContent(e.target.value)}
             className="w-full h-full  bg-background outline-none"
             placeholder="Post Your Replay"
           />
-          <Button onClick={handleReplay}>Replay</Button>
+          <Button onClick={handleReplay} disabled={!content.trim() || loading} > {loading && <Loader2 className="animate-spin"/>} Replay</Button>
         </div>
       </div>
       <Separator />

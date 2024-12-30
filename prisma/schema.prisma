@@ -12,6 +12,7 @@ model User {
   clerkUserId        String         @unique
   userName           String         @unique
   profilePicture     String?
+  coverPicture       String?
   bio                String?
   createdAt          DateTime       @default(now())
   tweets             Tweet[]        @relation()

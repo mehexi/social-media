@@ -36,7 +36,10 @@ const SubMenu = ({ post }) => {
 const Menuitem = ({ data }) => {
   const {icon:Icon} = data
   return (
-    <DropdownMenuItem onClick={data.onClick} className={data.class}>
+    <DropdownMenuItem onClick={(e) => {
+      e.stopPropagation()
+      data.onClick( )
+    }} className={data.class}>
       <Icon size='14'/> <h1>{data.label}</h1>
     </DropdownMenuItem>
   );

@@ -5,6 +5,7 @@ import { Pen, Search } from "lucide-react";
 import FollowBtn from "@/components/ui/FollowBtn";
 import { getUserData } from "@/actions/getUserData";
 import SearchButton from "./SearchButton";
+import EditProfile from "../[userName]/componants/EditProfile";
 
 const ProfileImage = async ({ userData }) => {
   const currentUser = await getUserData();
@@ -20,14 +21,12 @@ const ProfileImage = async ({ userData }) => {
           <OtherUserAvatars width={28} height={28} id={userData.clerkUserId} />
         </div>
         <div className="flex gap-1">
-          <SearchButton username={userData.userName}/>
-        {isCurrentUser ? (
-          <Button className="rounded-full h-8" variant="secondary">
-            <Pen /> Edit Profile
-          </Button>
-        ) : (
-          <FollowBtn followeeUser={userData} followStatus={isFollowing} />
-        )}
+          <SearchButton username={userData.userName} />
+          {isCurrentUser ? (
+            <EditProfile currentUser={currentUser} />
+          ) : (
+            <FollowBtn followeeUser={userData} followStatus={isFollowing} />
+          )}
         </div>
       </div>
     </div>

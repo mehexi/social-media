@@ -43,7 +43,7 @@ const CreateReplay = ({ currentPost, onReplySubmit, replyCount }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!content.trim()) return; // Prevent empty submissions
+    if (!content.trim()) return; 
     mutate({ content, parentTweetId: currentPost.id });
   };
 

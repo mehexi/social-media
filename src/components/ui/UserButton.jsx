@@ -10,23 +10,25 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
 } from "./dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Settings, User } from "lucide-react";
 import ToggleDark from "../darkmode/ToggleDark";
 import { ThemeColorToggle } from "../darkmode/ThemeColor";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const UserButton = () => {
   const user = useUser();
+  const router = useRouter()
   const { signOut, openUserProfile } = useClerk();
 
   const handleProfileClick = () => {
-    openUserProfile();
+    router.push('/settings')
   };
 
   const handleSignOut = async () => {
     try {
       await signOut();
-      window.location.href = "/login";
+      window.location.reload()
     } catch (error) {
       console.error(error);
     }
@@ -63,8 +65,8 @@ const UserButton = () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={handleProfileClick}>
-            <User/>
-            <span>profile</span>
+            <Settings/>
+            <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleSignOut}>
             <LogOut />

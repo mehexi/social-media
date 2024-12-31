@@ -60,6 +60,7 @@ const OtherUserAvatars = ({ id, width = 8, height = 8 }) => {
     <HoverCard>
       <HoverCardTrigger className={`w-${width} h-${height}`}>
         <Image
+          priority={true}
           alt={
             user?.firstName
               ? `${user.firstName}'s Avatar`

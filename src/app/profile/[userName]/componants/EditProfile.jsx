@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,12 +14,14 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { ChevronLeft, Pen } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pen, User2 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const EditProfile = ({ currentUser }) => {
   const { user } = useUser();
+  const router = useRouter()
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
   const [name, setName] = useState(
@@ -173,7 +176,10 @@ const EditProfile = ({ currentUser }) => {
           {/* Bio Input */}
           <div className="space-y-2">
             <Label htmlFor="bio">Bio</Label>
-            <Input
+            <textarea
+            className= "resize-none flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              rows={4}
+              draggable="false"
               id="bio"
               name="bio"
               type="text"
@@ -183,6 +189,15 @@ const EditProfile = ({ currentUser }) => {
             />
           </div>
         </form>
+      <DialogFooter>
+          <Button onClick={()=>router.push('/settings')}  className='' variant='secondary'>
+            <div className="flex items-center gap-1">
+              <User2 size={14}/>
+          <h1>Advance Profile Settings</h1>
+          </div>
+          <ChevronRight className="ml-ato"/>
+        </Button>
+      </DialogFooter>
       </DialogContent>
     </Dialog>
   );

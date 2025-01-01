@@ -10,10 +10,10 @@ export default async function FeedLayout({ children,params }) {
   const userData = await getUserData(userName);
 
   return (
-    <>
+    <section className="flex flex-col items-center h-screen  overflow-x-auto pb-12">
       <ProfileBackButton userData={userData}/>
       <Tabs />
       {children}
-    </>
+    </section>
   );
 }

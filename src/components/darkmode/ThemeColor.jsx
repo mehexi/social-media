@@ -13,6 +13,7 @@ const availableThemeColors = [
 ];
 
 export function ThemeColorToggle() {
+  
   const { themeColor, setThemeColor } = useThemeContext();
   const { theme } = useTheme();
 

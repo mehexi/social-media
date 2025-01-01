@@ -104,3 +104,21 @@ model Like {
   tweetId   String   @db.ObjectId
   createdAt DateTime @default(now())
 }
+
+model Report {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  title     String
+  status    String        @default("pending")
+  issue     String
+  createdAt DateTime @default(now())
+  replies   ReportReply[] 
+}
+
+model ReportReply {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  reportId  String   @db.ObjectId
+  message   String
+  createdAt DateTime @default(now())
+  report    Report   @relation(fields: [reportId], references: [id]) 
+}

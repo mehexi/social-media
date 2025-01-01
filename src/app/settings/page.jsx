@@ -5,7 +5,7 @@ import SettingsBody from "./componants/SettingsBody";
 
 const page = () => {
   return (
-    <Card className="border-none">
+    <Card className="border-none h-screen">
       <CardHeader>
         <CardTitle>Settings</CardTitle>
       </CardHeader>

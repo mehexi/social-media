@@ -3,7 +3,7 @@ import { getUserData } from "./getUserData";
 
 export const getReports = async () => {
   try {
-    const currentUser = getUserData();
+    const currentUser = await getUserData();
     const reports = await prisma.report.findMany({
       where: {
         userId: currentUser.id,

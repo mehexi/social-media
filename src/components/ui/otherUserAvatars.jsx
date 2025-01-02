@@ -1,6 +1,7 @@
 import { User2 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { openModal } from "../image/ImageModal";
 
 const OtherUserAvatars = ({ user, width = 8, height = 8 }) => {
 

@@ -20,6 +20,7 @@ const ProfileImage = async ({ userData }) => {
       <div className="h-52 bg-secondary w-full">
         {userData.coverPicture && (
           <Image
+            
             alt=""
             width={300}
             height={200}

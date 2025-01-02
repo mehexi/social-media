@@ -37,13 +37,13 @@ const useRoute = () => {
         new: liveNotifications.length > 0,
         active: pathName === "/notification"
       },
-      {
-        label: "Messages",
-        href: "/messages",
-        new: false,
-        icon: MessageCircleCodeIcon,
-        active: pathName === "/messages"
-      },
+      // {
+      //   label: "Messages",
+      //   href: "/messages",
+      //   new: false,
+      //   icon: MessageCircleCodeIcon,
+      //   active: pathName === "/messages"
+      // },
       {
         label: "Bookmarks",
         href: "/bookmark",

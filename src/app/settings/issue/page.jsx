@@ -6,6 +6,7 @@ import AllIssue from "./componant/AllIssue";
 import BackButton from "@/components/ui/backbutton";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 const page = async () => {
   const allIssue = await getReports();
@@ -16,7 +17,7 @@ const page = async () => {
           <BackButton />
           <CardTitle>All reports</CardTitle>
           <Link href={"/settings/issue/addReport"} className="ml-auto">
-            <Button size="icon"></Button>
+            <Button size="icon"><Plus/></Button>
           </Link>
         </CardHeader>
         <Separator />

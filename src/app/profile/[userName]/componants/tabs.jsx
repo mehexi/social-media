@@ -11,12 +11,12 @@ const Tabs = () => {
   const routes = [
     {
       href: "followers",
-      label: "follower",
+      label: "following",
       active: pathname.includes("/follower")
     },
     {
       href: "following",
-      label: "following",
+      label: "followers",
       active: pathname.includes("/following")
     }
   ];

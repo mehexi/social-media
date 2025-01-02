@@ -16,6 +16,7 @@ import { useUser } from "@clerk/nextjs";
 import ToolTipWrapper from "@/components/ui/ToolTipWrapper";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { openModal } from "@/components/image/ImageModal";
 
 const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
   const { user } = useUser();
@@ -70,11 +71,12 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
     router.push(`/profile/${post.user.userName}/${post.id}`);
   };
 
+
   return (
     <div className="w-full">
       <div
         className="flex px-3 py-3 gap-3 hover:bg-accent/20 hover:cursor-pointer"
-        onClick={handleClick}
+        // onClick={handleClick}
       >
         <div className=" flex flex-col gap-3  items-center">
           <OtherUserAvatars user={post.user} />
@@ -131,7 +133,7 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
           {post.parentTweet && (
             <div className="flex py-3 gap-3">
               <div className="w-8 h-8">
-              <OtherUserAvatars user={post.parentTweet.user} />
+                <OtherUserAvatars user={post.parentTweet.user} />
               </div>
               <div className="text-nowrap w-full flex flex-col">
                 <div className="flex items-center font-semibold gap-3">
@@ -168,6 +170,10 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
                   >
                     {post.parentTweet.image.map((image, i) => (
                       <Image
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModal(image);;
+                        }}
                         width={1024}
                         height={1024}
                         key={i}
@@ -189,6 +195,10 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
             <div className="grid grid-cols-2 mt-3 gap-1 h-full">
               {post.image.map((image, i) => (
                 <Image
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openModal(image);
+                  }}
                   width={1000}
                   height={1000}
                   key={i}
@@ -228,7 +238,7 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
               />
             </span>
           )}
-          <Separator className='mt-3'/>
+          <Separator className="mt-3" />
         </div>
       ) : null}
       <div className="flex">

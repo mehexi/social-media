@@ -1,5 +1,6 @@
 "use client";
 import SinglePost from "@/app/(feed)/componants/SinglePost";
+import { openModal } from "@/components/image/ImageModal";
 import { Pin, Search } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -18,6 +19,7 @@ const ProfileDatas = ({ searchParam, tweetData }) => {
         {tweetData.map((tweet) =>
           tweet.image.map((img, index) => (
             <Image
+              onClick={()=>openModal(img)}
               className="aspect-square object-cover"
               key={index}
               src={img}

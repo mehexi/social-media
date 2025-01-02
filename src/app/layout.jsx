@@ -6,6 +6,7 @@ import ReactQueryProvider from "./provider/ReactQueryProvider";
 import ThemeDataProvider from "./provider/ThemeDataProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import ModalManager from "@/components/image/ImageModal";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,7 +35,8 @@ export default function RootLayout({ children }) {
             <ThemeDataProvider>
                 <ReactQueryProvider>
                   {children}
-                  <Toaster />
+                <Toaster />
+                <ModalManager/>
                 </ReactQueryProvider>
             </ThemeDataProvider>
           </ThemeProvider>

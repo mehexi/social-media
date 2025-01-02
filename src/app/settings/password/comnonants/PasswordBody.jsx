@@ -46,7 +46,6 @@ const PasswordBody = () => {
       toast({
         title: "Password updated successfully",
       })
-      console.log("password changed");
     } catch (error) {
       console.log(error);
       form.setError('currentPassword', {

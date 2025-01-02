@@ -8,7 +8,6 @@ import { getReports } from "@/actions/getReports";
 
 const page = async() => {
     const reports = await getReports()
-    console.log(reports)
   return (
     <div className="h-screen">
       <Card className="bg-transparent border-none">

@@ -6,7 +6,6 @@ export const getTweetById = async (tweetId) => {
     const currentUser = await getUserData();
 
     if (!tweetId) {
-      console.log("tweet Id required");
       return null;
     }
 

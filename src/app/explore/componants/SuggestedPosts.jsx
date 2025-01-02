@@ -23,8 +23,6 @@ const SuggestedPosts = ({ tweets }) => {
     }
   }
 
-  console.log(parts);
-
   return (
     <Card className="border-none w-full bg-background mb-12">
       <div className="p-3 ">

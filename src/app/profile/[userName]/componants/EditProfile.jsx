@@ -29,8 +29,6 @@ const EditProfile = ({ currentUser }) => {
   );
   const [bio, setBio] = useState(currentUser?.bio || "");
 
-  console.log(currentUser.coverPicture);
-
   const handleImageChange = (e, setImage) => {
     const file = e.target.files[0];
     if (file) {
@@ -57,8 +55,7 @@ const EditProfile = ({ currentUser }) => {
       formData.append("name", name);
       formData.append("bio", bio);
 
-      console.log("Submitting Form Data:", formData);
-
+   
       const { data } = await axios.put("/api/profile", formData);
 
       toast({
@@ -66,7 +63,6 @@ const EditProfile = ({ currentUser }) => {
       });
 
       window.location.reload()
-      console.log("Response Data:", data);
     } catch (error) {
       console.error("Error:", error);
     }

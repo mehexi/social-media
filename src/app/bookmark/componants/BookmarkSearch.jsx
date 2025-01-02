@@ -7,7 +7,6 @@ const BookmarkSearch = () => {
     const router = useRouter()
      
   const handleSearch = (e) => {
-      console.log(e.target.value);
       router.push(`?q=${e.target.value}`)
   };
   return (

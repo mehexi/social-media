@@ -1,8 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import FollowBtn from "@/components/ui/FollowBtn";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -43,6 +41,8 @@ const FollowItem = ({ data }) => {
     };
   }, [userData?.userFromDB?.id]);
 
+ 
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-between">
@@ -65,7 +65,7 @@ const FollowItem = ({ data }) => {
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
         <div className="flex-shrink-0">
-          <OtherUserAvatars id={data.clerkUserId} />
+          <OtherUserAvatars user={userData.userFromDB} />
         </div>
         <div>
           <h1 className="">{userData.user.username}</h1>

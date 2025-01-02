@@ -7,7 +7,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 
-const ReplaySinglePost = ({ id, setAllReplies, parentTweetId }) => {
+const ReplaySinglePost = ({ user, setAllReplies, parentTweetId }) => {
   const [content, setContent] = useState("");
   const [loading,setLoading] = useState(false)
   const handleReplay = async () => {
@@ -16,7 +16,7 @@ const ReplaySinglePost = ({ id, setAllReplies, parentTweetId }) => {
       if (!content.trim()) return;
       const data = await axios.post(`/api/post/${parentTweetId}`, { content });
       setAllReplies((prevReplies) => [...prevReplies, data.data]);
-      console.log(data.data);
+
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +29,7 @@ const ReplaySinglePost = ({ id, setAllReplies, parentTweetId }) => {
     <>
       <div className="w-full flex p-3 gap-2">
         <div className="w-14 h-14 flex-shrink-0 pointer-events-none">
-          <OtherUserAvatars id={id} height={14} width={14} />
+          <OtherUserAvatars user={user} height={14} width={14} />
         </div>
         <div className="w-full flex items-center">
           <input

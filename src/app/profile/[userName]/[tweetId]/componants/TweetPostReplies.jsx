@@ -9,7 +9,7 @@ const TweetPostReplies = ({ tweets, currentUser }) => {
   return (
     <>
       <ReplaySinglePost
-        id={currentUser.clerkUserId}
+        user={currentUser}
         setAllReplies={setAllReplies}
         parentTweetId={tweets.id}
       />

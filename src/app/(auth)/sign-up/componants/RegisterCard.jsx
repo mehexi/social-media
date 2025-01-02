@@ -52,7 +52,21 @@ const RegisterCard = () => {
     setLoading(true);
     const { email, password, username } = data;
 
-    const result = await handleRegisterUser(email, password, username);
+    const result = await handleRegisterUser(email, password, username)
+
+    if (result?.error?.message) {
+      const errorMessage = result.error.message;
+  
+      if (errorMessage.includes("username")) {
+        form.setError("username", { message: "Username already exists" });
+      }
+      if (errorMessage.includes("email")) {
+        form.setError("email", { message: "Email already exists" });
+      }
+      setLoading(false);
+      return;
+    }
+
     if (result.status === "complete") {
       const clerkUserId = result.createdUserId;
       const username = result.username;
@@ -76,19 +90,21 @@ const RegisterCard = () => {
   };
 
   const handleGoBack = () => {
-    router.push('/login')
-  }
+    router.push("/login");
+  };
 
   return (
     <div className=" px-20 w-8/12 max-md:w-full max-sm:px-0">
       <Card className="w-full max-sm:border-none">
         <CardHeader className="">
           <div className="flex space-x-3">
-            <Button variant='ghost' size='icon' onClick={handleGoBack}><ChevronLeft/></Button>
-          <div>
-          <CardTitle>Register</CardTitle>
-          <CardDescription>Create a New Account</CardDescription>
-          </div>
+            <Button variant="ghost" size="icon" onClick={handleGoBack}>
+              <ChevronLeft />
+            </Button>
+            <div>
+              <CardTitle>Register</CardTitle>
+              <CardDescription>Create a New Account</CardDescription>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -97,7 +113,7 @@ const RegisterCard = () => {
               autoComplete="off"
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-4"
-            > 
+            >
               <FormField
                 control={form.control}
                 name="username"
@@ -172,10 +188,7 @@ const RegisterCard = () => {
                 <Button
                   type="submit"
                   className="rounded-full"
-                  disabled={
-                    loading ||
-                    form.formState.isSubmitting 
-                  }
+                  disabled={loading || form.formState.isSubmitting}
                 >
                   {loading ? "Registering..." : "Register"}
                 </Button>

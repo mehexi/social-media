@@ -6,7 +6,8 @@ import ReplaySinglePost from "./componants/ReplaySinglePost";
 import TweetPostReplies from "./componants/TweetPostReplies";
 
 export async function generateMetadata({ params }) {
-  const { tweetId } = params;
+  const param = await params
+  const { tweetId } = param;
   const tweet = await getTweetById(tweetId);
 
   return {
@@ -20,7 +21,7 @@ const page = async ({ params }) => {
   const { tweetId } = await params;
   const tweets = await getTweetById(tweetId);
   return (
-    <section className="flex flex-col items-center h-screen overflow-x-auto mb-24">
+    <section className="flex flex-col items-center overflow-x-auto mb-24">
       <BackButton />
       <div className="w-full">
         <SinglePost post={tweets} mainTweet={true} />

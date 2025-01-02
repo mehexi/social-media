@@ -21,11 +21,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFromSchema } from "@/formValidation/formSchema";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BiLogoGoogle } from "react-icons/bi";
 import Link from "next/link";
 import { useEmailAndPassword } from "@/hooks/useSignUp";
 import { useUser } from "@clerk/nextjs";
-import { redirect, useRouter } from "next/navigation";
 
 const LoginCard = () => {
   const signInWithEmailAndPass = useEmailAndPassword();
@@ -47,6 +45,18 @@ const LoginCard = () => {
     const email = data.email;
     const password = data.password;
     const result = await signInWithEmailAndPass(email, password);
+
+    if (result.error) { 
+      const errorMessage = result.error.message;
+
+      if (errorMessage.includes("Password")) {
+        form.setError('password', { message: result.error.message })
+        return
+      }
+
+     form.setError('email',{message: result.error.message})
+    }
+
     if (result.status === 'complete') {
       console.log('trigger')
        window.location.href = "/"

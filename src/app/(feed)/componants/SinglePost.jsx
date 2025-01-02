@@ -77,7 +77,7 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
         onClick={handleClick}
       >
         <div className=" flex flex-col gap-3  items-center">
-          <OtherUserAvatars id={post.userId} />
+          <OtherUserAvatars user={post.user} />
           <div className=" overflow-hidden h-full">
             {post.parentTweet && <Separator orientation="vertical" />}
           </div>
@@ -131,7 +131,7 @@ const SinglePost = ({ post, onReplySubmit, mainTweet = false }) => {
           {post.parentTweet && (
             <div className="flex py-3 gap-3">
               <div className="w-8 h-8">
-                <OtherUserAvatars id={post.parentTweet.userId} />
+              <OtherUserAvatars user={post.parentTweet.user} />
               </div>
               <div className="text-nowrap w-full flex flex-col">
                 <div className="flex items-center font-semibold gap-3">

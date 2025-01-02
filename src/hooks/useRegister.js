@@ -1,5 +1,6 @@
 import { useSignUp } from "@clerk/nextjs";
 import {useRouter} from 'next/navigation'
+import { toast } from "./use-toast";
 
 export const useRegister = () => {
     const { signUp } = useSignUp();
@@ -11,13 +12,12 @@ export const useRegister = () => {
           email_address: email, 
           password: password,   
           username: username,
-          redirectUrl: '/',
         });
 
         return result;
       } catch (error) {
-        console.error("Error creating user:", error.message);
-        return null;
+        console.error("Error creating user:", error);
+        return { error: { message: error.message } };
       }
     };
   

@@ -6,7 +6,6 @@ export const getAllBookmark = async (query) => {
     const currentUser = await getUserData();
 
     if (!currentUser) {
-      console.log("user not authenticated");
       return null;
     }
 
@@ -40,9 +39,6 @@ export const getAllBookmark = async (query) => {
       }
     });
 
-    console.log(bookmarks)
-
-    // return bookmarks
 
     const newBookmarks = bookmarks.map((bookmark) => ({
       ...bookmark,
@@ -53,11 +49,9 @@ export const getAllBookmark = async (query) => {
       },
     }))
     
-    console.log(newBookmarks)
 
     return newBookmarks;
   } catch (error) {
-    console.log(error);
     return null;
   }
 };

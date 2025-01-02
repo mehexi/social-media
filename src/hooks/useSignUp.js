@@ -12,7 +12,7 @@ export const useEmailAndPassword = () => {
 
       return result;
     } catch (error) {
-      return error;
+      return {error: {message: error.message}};
     }
   };
 

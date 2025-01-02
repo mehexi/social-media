@@ -6,7 +6,6 @@ import AllIssue from './componant/AllIssue';
 
 const page = async() => {
     const allIssue =await getReports()
-    console.log(allIssue)
     return (
         <div className='h-screen'>
             <Card className='bg-transparent border-none'>

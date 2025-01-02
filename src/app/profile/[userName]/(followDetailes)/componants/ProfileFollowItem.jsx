@@ -8,10 +8,11 @@ const ProfileFollowItem = ({ data, currentUser }) => {
     (follow) => follow.followerId === data.id
   );
 
+
   return (
     <div className="flex items-center  gap-3 w-full">
       <div className="w-8 h-8 rounded-full flex-shrink-0">
-        <OtherUserAvatars id={data.clerkUserId} />
+        <OtherUserAvatars user={data} />  
       </div>
       <div className="">
         <h1 className="capitalize">{data.userName}</h1>

@@ -63,7 +63,7 @@ const CreateReplay = ({ currentPost, onReplySubmit, replyCount }) => {
         <div className="flex flex-col gap-6">
           <div className="flex gap-3 h-fit">
             <div className="flex flex-col items-center gap-1">
-              <OtherUserAvatars id={currentPost.userId} />
+              <OtherUserAvatars user={currentPost.user} />
               <Separator orientation="vertical" />
             </div>
             <div className="">

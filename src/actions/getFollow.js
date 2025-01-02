@@ -3,7 +3,6 @@ import prisma from "@/lib/prismaDb";
 export const getFollow = async (userId) => {
   try {
     if (!userId) {
-      console.log("user id not provided");
       return null;
     }
 

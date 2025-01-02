@@ -30,7 +30,7 @@ const ProfileImage = async ({ userData }) => {
         )}
       </div>
       <div className="-mt-14 mx-6 flex items-end justify-between">
-        <div className="w-28 h-28 pointer-events-none rounded-full flex-shrink-0">
+        <div className="w-28 h-28 rounded-full flex-shrink-0">
           <OtherUserAvatars width={28} height={28} user={userData} />
         </div>
         <div className="flex gap-1">

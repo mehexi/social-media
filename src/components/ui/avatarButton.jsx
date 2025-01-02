@@ -11,14 +11,14 @@ const AavatarButton = ({size='12'}) => {
 
   return (
     <Image
-      onClick={() => router.push("/profile")}
+      onClick={() => router.push(`/profile/${user.user.username}`)}
       width={1020}
       height={1020}
       className={cn(
         "rounded-full cursor-pointer object-cover flex-shrink-0",
         `h-${size} w-${size}`
       )}
-      src={user?.user?.imageUrl || "/user.png"}
+      src={user?.user?.imageUrl || `/user.png`}
       alt="User Avatar"
     />
   );

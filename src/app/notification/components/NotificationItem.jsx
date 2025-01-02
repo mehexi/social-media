@@ -20,7 +20,7 @@ const NotificationItem = ({ notification }) => {
       <div className="border relative pointer-events-none">
         <div className="w-8 h-8 flex-shrink-0">
         <OtherUserAvatars
-          id={notification.actor.clerkUserId}
+          user={notification.actor}
           width={8}
           height={8}
         />

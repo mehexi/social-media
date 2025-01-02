@@ -55,6 +55,7 @@ export async function POST(req) {
       }
     });
 
+    
     const notification = await  prisma.notification.create({
       data: {
         userId: followerId,

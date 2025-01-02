@@ -9,9 +9,9 @@ const OtherUserAvatars = ({ user, width = 8, height = 8 }) => {
   }
 
   return (
-    <div className={`w-${width} h-${height} bg-primary rounded-full flex-shrink-0 items-center flex justify-center`}>
+    <div className={`w-${width} h-${height} rounded-full flex-shrink-0 items-center flex justify-center`}>
       {
-        user.profilePicture ? <Image unoptimized  alt="" width={300} height={300} src={user.profilePicture} className={`w-${width} h-${height} bg-primary rounded-full flex-shrink-0`}/> : <User2 size={18}/>
+        user.profilePicture ? <Image unoptimized  alt="" width={300} height={300} src={user.profilePicture} className={`w-${width} h-${height} bg-primary rounded-full flex-shrink-0 object-cover`}/> :<div className={`w-${width} h-${height} rounded-full flex-shrink-0 items-center flex justify-center  bg-background border`}><User2 size={14}/></div>
       }
     </div>
   )

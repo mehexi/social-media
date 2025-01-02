@@ -15,7 +15,8 @@ export async function getAllUser () {
       },
       include: {
         followers: true
-      }
+      },
+      take:5
     });
 
     return allUser ;

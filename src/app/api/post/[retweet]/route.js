@@ -36,23 +36,26 @@ export async function POST(req, { params }) {
       },
     });
 
-    const notification = await prisma.notification.create({
-      data: {
-        userId: getTweet.user.id,
-        actorId: getCurrentUser.id,
-        type: "retweet",
-        content: `${getCurrentUser.userName} had '${newTweet.content}' To Say! about your tweet`,
-      },
-      include: {
-        actor: true,
-      },
-    });
+    if (getTweet.user.id !== getCurrentUser.id) {
+      const notification = await prisma.notification.create({
+        data: {
+          userId: getTweet.user.id,
+          actorId: getCurrentUser.id,
+          type: "retweet",
+          content: `${getCurrentUser.userName} had '${newTweet.content}' To Say! about your tweet`,
+        },
+        include: {
+          actor: true,
+        },
+      });
+      
+      await pusherServer.trigger(
+        getTweet.user.id,
+        "notification:new",
+        notification
+      );
+    }
 
-    await pusherServer.trigger(
-      getTweet.user.id,
-      "notification:new",
-      notification
-    );
 
     return NextResponse.json(newTweet, { status: 200 });
   } catch (error) {

@@ -3,9 +3,11 @@ import FollowBtn from "@/components/ui/FollowBtn";
 import OtherUserAvatars from "@/components/ui/otherUserAvatars";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const FollowItem = ({ data }) => {
+  const router = useRouter()
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFOllowing, setIsFollowing] = useState(null);
@@ -68,7 +70,7 @@ const FollowItem = ({ data }) => {
           <OtherUserAvatars user={userData.userFromDB} />
         </div>
         <div>
-          <h1 className="">{userData.user.username}</h1>
+          <h1 onClick={()=>router.push(`/profile/${userData.user.username}`)}  className="hover:underline cursor-pointer">{userData.user.username}</h1>
           <h1 className="text-foreground/60 text-sm">
             {userData.user.username}
           </h1>
